@@ -107,6 +107,14 @@ class GameScene: SKScene {
         tapCount += 1
         
         if tapCount < 3 {
+            
+            //player movment
+        
+            if let touch = touches.first {
+                 player.position.y = touch.location(in: self).y
+                 player.isFiring = true
+            }
+            
             return
         }
         
@@ -118,6 +126,19 @@ class GameScene: SKScene {
             totalScore += levelScore
             let results = LevelResults(levelNum: levelNum, levelScore: levelScore, totalScore: totalScore, msg: "you finished level \(levelNum)")
            sceneManager.loadGameOverScene(results: results)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            player.position.y = touch.location(in: self).y
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            player.position.y = touch.location(in: self).y
+            player.isFiring = false
         }
     }
     
