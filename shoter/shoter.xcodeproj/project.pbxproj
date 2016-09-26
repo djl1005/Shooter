@@ -26,6 +26,7 @@
 		3FAF85361D945386004E451B /* LevelResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF85351D945386004E451B /* LevelResults.swift */; };
 		3FAF85381D94545A004E451B /* LevelFinishScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF85371D94545A004E451B /* LevelFinishScene.swift */; };
 		3FAF853A1D945771004E451B /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF85391D945771004E451B /* GameOverScene.swift */; };
+		3FF0BA8F1D99BE2E00A44A38 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0BA8E1D99BE2E00A44A38 /* Bullet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		3FAF85351D945386004E451B /* LevelResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelResults.swift; sourceTree = "<group>"; };
 		3FAF85371D94545A004E451B /* LevelFinishScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelFinishScene.swift; sourceTree = "<group>"; };
 		3FAF85391D945771004E451B /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		3FF0BA8E1D99BE2E00A44A38 /* Bullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			children = (
 				3FAF85331D944712004E451B /* DiamondSprite.swift */,
 				3F79253C1D98696B00107727 /* PlayerSprite.swift */,
+				3FF0BA8E1D99BE2E00A44A38 /* Bullet.swift */,
 			);
 			name = Sprite;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				3F7925381D9863AA00107727 /* CGFloat+Extensions.swift in Sources */,
 				3FAF85131D943496004E451B /* GameScene.swift in Sources */,
 				3FAF85321D943AE7004E451B /* HomeScene.swift in Sources */,
+				3FF0BA8F1D99BE2E00A44A38 /* Bullet.swift in Sources */,
 				3FAF85361D945386004E451B /* LevelResults.swift in Sources */,
 				3F79253A1D9863AA00107727 /* GameData.swift in Sources */,
 				3F79253B1D9863AA00107727 /* MyUtils.swift in Sources */,

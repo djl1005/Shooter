@@ -42,5 +42,12 @@ struct GameData{
     struct scene {
         static let backgroundColor = SKColor(red: 0.878, green: 0.69, blue: 1.0, alpha: 1.0)
     }
+    
+    struct PhysicsCategory{
+        static let None : UInt32 = 0
+        static let All : UInt32 = UInt32.max
+        static let Bullet : UInt32 = 0b1 // 1
+        static let Enemy : UInt32 = 0b10 // 2
+    }
 }
 
