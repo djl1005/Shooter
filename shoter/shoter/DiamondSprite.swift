@@ -36,6 +36,7 @@ class DiamondSprite: SKShapeNode {
         self.lineWidth = lineWidth
         self.fillColor = fillColor
         
+        
     }
     
     required init(coder aDecoder: NSCoder) {

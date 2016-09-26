@@ -9,13 +9,21 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
     var levelScore:Int = 0 {
         didSet{
             scoreLabel.text = "Score: \(levelScore)"
         }
     }
+    
+    struct PhysicsCategory{
+        static let None : UInt32 = 0
+        static let All : UInt32 = UInt32.max
+        static let Bullet : UInt32 = 0b1 // 1
+        static let Target : UInt32 = 0b10 // 2
+    }
+    
     var totalScore:Int
     let sceneManager:GameViewController
     
@@ -28,7 +36,7 @@ class GameScene: SKScene {
     let scoreLabel = SKLabelNode(fontNamed: "Futura")
     let otherLabel = SKLabelNode(fontNamed: "Futura")
     
-    let player = PlayerSprite();
+    let player = PlayerSprite()
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
@@ -100,6 +108,9 @@ class GameScene: SKScene {
         player.position = CGPoint(x: 300, y: 540)
         player.zRotation = CGFloat(-M_PI * 0.5)
         addChild(player)
+        
+        // checks to see if two objects collide
+        physicsWorld.contactDelegate = self
     }
     
     //MARK: -events-
@@ -113,6 +124,14 @@ class GameScene: SKScene {
             if let touch = touches.first {
                  player.position.y = touch.location(in: self).y
                  player.isFiring = true
+                
+                // spawns bullets infinitely
+                run(SKAction.repeatForever(
+                    SKAction.sequence([
+                        SKAction.run(spawnBullet),
+                        SKAction.wait(forDuration: 0.75),
+                        ])
+                ))
             }
             
             return
@@ -154,9 +173,88 @@ class GameScene: SKScene {
             s.position = randomCGPointInRect(playbleRect, margin: 300)
             s.fwd = CGPoint.randomUnitVector()
             addChild(s)
+            
+            // check physics body of sprite (Hopefully will collide with bullet)
+            s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
+            s.physicsBody?.isDynamic = true
+            s.physicsBody?.categoryBitMask = PhysicsCategory.Target
+            s.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet
+            s.physicsBody?.collisionBitMask = PhysicsCategory.None
+            s.physicsBody?.usesPreciseCollisionDetection = true
+            s.physicsBody?.affectedByGravity = false
         }
     }
     
+    // spawns bullets into game
+    func spawnBullet(){
+        // only spawn if player is firing
+        if player.isFiring{
+            
+            // set up spawn location
+            let bullet = SKSpriteNode(imageNamed:"bullet.png")
+            
+            //bullet.position = CGPoint(x: player.position.x, y: player.position.y)
+            bullet.position = player.position
+            bullet.zRotation = CGFloat(-M_PI * 0.5)
+            bullet.size = CGSize(width: bullet.size.width/2, height: bullet.size.height/2)
+            
+            // add bullet into gamescene
+            addChild(bullet)
+            
+            
+            // check physics collision
+            bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
+            bullet.physicsBody?.isDynamic = true
+            bullet.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
+            bullet.physicsBody?.contactTestBitMask = PhysicsCategory.Target
+            bullet.physicsBody?.collisionBitMask = PhysicsCategory.None
+            bullet.physicsBody?.affectedByGravity = false
+            
+            // how long until bullet reaches destination?
+            let bulletLifeTime = CGFloat(3.0)
+            
+            
+            // move to the end of screen in 3 seconds, maintaining y position
+            let actionMove = SKAction.move(to: CGPoint(x: self.size.width - bullet.size.width/2, y: player.position.y), duration: TimeInterval(bulletLifeTime))
+            
+            let actionMoveDone = SKAction.removeFromParent()
+            
+            // run actions above
+            bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
+        }
+        
+    }
+    
+    // create a handler to check for bullet collision
+    func bulletCollided(target:SKSpriteNode,bullet:SKShapeNode){
+        print("BOOM")
+        target.removeFromParent()
+        bullet.removeFromParent()
+        
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // 1
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA // bullet
+            secondBody = contact.bodyB // target
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // 2
+        if ((firstBody.categoryBitMask & PhysicsCategory.Bullet != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Target != 0) &&
+            firstBody.node != nil && secondBody.node != nil) {
+            bulletCollided(target: firstBody.node as! SKSpriteNode, bullet: secondBody.node as! SKShapeNode)
+        }
+        
+    }
+
     //MARK: -Game Loop-
     
     func unpauseSprites(){
