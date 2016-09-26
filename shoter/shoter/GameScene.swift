@@ -11,25 +11,17 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
-    var levelScore:Int = 0 {
-        didSet{
-            scoreLabel.text = "Score: \(levelScore)"
-        }
-    }
     
 
-    
-    var totalScore:Int
     let sceneManager:GameViewController
     
     var tapCount = 0
     
     var playbleRect = CGRect.zero
+    var enemyRect = CGRect.zero //area where enemies can spawn
     var totalSprites = 0
     
-    let levelLabel = SKLabelNode(fontNamed: "Futura")
-    let scoreLabel = SKLabelNode(fontNamed: "Futura")
-    let otherLabel = SKLabelNode(fontNamed: "Futura")
+    let lifesLabel = SKLabelNode(fontNamed: "Futura")
     
     let player = PlayerSprite()
     
@@ -41,7 +33,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, totalScore:Int, sceneManager:GameViewController) {
         self.levelNum = levelNum
-        self.totalScore = totalScore
         self.sceneManager = sceneManager
         super.init(size: size)
         self.scaleMode = scaleMode
@@ -53,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     override func didMove(to view: SKView) {
         setupUI()
-        makeSprites(howMany: 10)
+        makeEnemies(howMany: 10)
         unpauseSprites()
         
         // spawns bullets infinitely
@@ -71,6 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     private func setupUI(){
         playbleRect = getPlayableRectPhoneLandscape(size: size)
+        enemyRect = CGRect(x: playbleRect.width/2, y: 0, width: playbleRect.width/2, height: playbleRect.height)
         let fontSize = GameData.hud.fontSize
         let fontColor = GameData.hud.fontColorWhite
         let marginH = GameData.hud.marginH
@@ -78,38 +70,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         backgroundColor = GameData.hud.backgroundColor
         
-        levelLabel.fontColor = fontColor
-        levelLabel.fontSize = fontSize
-        levelLabel.position = CGPoint(x: marginH, y: playbleRect.maxY - marginV)
-        levelLabel.verticalAlignmentMode = .top
-        levelLabel.horizontalAlignmentMode = .left
+        lifesLabel.fontColor = fontColor
+        lifesLabel.fontSize = fontSize
+        lifesLabel.position = CGPoint(x: marginH, y: playbleRect.maxY - marginV)
+        lifesLabel.verticalAlignmentMode = .top
+        lifesLabel.horizontalAlignmentMode = .left
         
-        levelLabel.text = "Level: \(levelNum)"
-        addChild(levelLabel)
+        lifesLabel.text = "Lifes: \(player.lifes)"
+        addChild(lifesLabel)
         
-        scoreLabel.fontColor = fontColor
-        scoreLabel.fontSize = fontSize
         
-        scoreLabel.verticalAlignmentMode = .top
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.text = "Score: 000"
-        let scoreLabelWidth = scoreLabel.frame.size.width
-        
-        scoreLabel.text = "Score: \(levelScore)"
-        
-        scoreLabel.position = CGPoint(x: playbleRect.maxX - scoreLabelWidth - marginH, y: playbleRect.maxY - marginV)
-        addChild(scoreLabel)
-        
-        otherLabel.fontColor = fontColor
-        otherLabel.fontSize = fontSize
-        otherLabel.position = CGPoint(x: marginH, y: playbleRect.minY + marginV)
-        otherLabel.verticalAlignmentMode = .bottom
-        otherLabel.horizontalAlignmentMode = .left
-        otherLabel.text = "Num Sprites: 0"
-        addChild(otherLabel)
-        
-        player.position = CGPoint(x: 300, y: 540)
-        player.zRotation = CGFloat(-M_PI * 0.5)
+
         addChild(player)
         
         // checks to see if two objects collide
@@ -154,24 +125,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
     }
     
-    func makeSprites(howMany:Int){
-        totalSprites += howMany
-        otherLabel.text = "Num Sprites: \(totalSprites)"
+    func makeEnemies(howMany:Int){
         
-        var s:DiamondSprite
+        var s:AlienSprite
         
         for _ in 0...howMany-1{
-            s = DiamondSprite(size: CGSize(width: 60, height: 100), lineWidth: 10, strokeColor: SKColor.green, fillColor: SKColor.magenta)
-            s.name = "diamond"
-            s.position = randomCGPointInRect(playbleRect, margin: 300)
-            s.fwd = CGPoint.randomUnitVector()
+            s = AlienSprite()
+            s.name = "Enemy"
+            
+            s.position = randomCGPointInRect(enemyRect, margin: 50)
+            
             addChild(s)
             
             // check physics body of sprite (Hopefully will collide with bullet)
             s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
             s.physicsBody?.isDynamic = true
             s.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Enemy
-            s.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Bullet
+            s.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayerBullet
             s.physicsBody?.collisionBitMask = GameData.PhysicsCategory.None
             s.physicsBody?.usesPreciseCollisionDetection = true
             s.physicsBody?.affectedByGravity = false
@@ -182,50 +152,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func spawnBullet(){
         // only spawn if player is firing
         if player.isFiring{
-            
-            // set up spawn location
-            //let bullet = SKSpriteNode(imageNamed:"bullet.png")
-            
              Bullet(isPlayer: true, spawnPoint: player.position, secene: self)
-            
-            //bullet.position = CGPoint(x: player.position.x, y: player.position.y)
-//            bullet.position = player.position
-//            bullet.zRotation = CGFloat(-M_PI * 0.5)
-//            bullet.size = CGSize(width: bullet.size.width/2, height: bullet.size.height/2)
-            
-            // add bullet into gamescene
-            
-            
-            
-            // check physics collision
-            //bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
-//            bullet.physicsBody?.isDynamic = true
-//            bullet.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
-//            bullet.physicsBody?.contactTestBitMask = PhysicsCategory.Target
-//            bullet.physicsBody?.collisionBitMask = PhysicsCategory.None
-//            bullet.physicsBody?.affectedByGravity = false
-            
-//            // how long until bullet reaches destination?
-//            let bulletLifeTime = CGFloat(3.0)
-//            
-//            
-//            // move to the end of screen in 3 seconds, maintaining y position
-//            let actionMove = SKAction.move(to: CGPoint(x: self.size.width - bullet.size.width/2, y: player.position.y), duration: TimeInterval(bulletLifeTime))
-//            
-//            let actionMoveDone = SKAction.removeFromParent()
-//            
-//            // run actions above
-//            bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
         }
         
     }
     
     // create a handler to check for bullet collision
-    func bulletCollided(target:SKSpriteNode,bullet:SKShapeNode){
+    func playerBulletCollided(enemy:AlienSprite,bullet:SKSpriteNode){
         print("BOOM")
-        target.removeFromParent()
+        enemy.health -= 1
+        if enemy.health <= 0{
+        enemy.removeFromParent()
+        }
         bullet.removeFromParent()
-        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -234,18 +173,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA // bullet
-            secondBody = contact.bodyB // target
+            firstBody = contact.bodyA // player || playerBullet
+            secondBody = contact.bodyB // enemy || EnemyBullet
         } else {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
         
         // 2
-        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.Bullet != 0) &&
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PLayerBullet != 0) &&
             (secondBody.categoryBitMask & GameData.PhysicsCategory.Enemy != 0) &&
             firstBody.node != nil && secondBody.node != nil) {
-            bulletCollided(target: firstBody.node as! SKSpriteNode, bullet: secondBody.node as! SKShapeNode)
+            playerBulletCollided(enemy: secondBody.node as! AlienSprite, bullet: firstBody.node as! SKSpriteNode)
         }
         
     }
@@ -272,8 +211,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     func moveSprites(dt: CGFloat){
         if spritesMoving{
-            enumerateChildNodes(withName: "diamond", using: {node, stop in
-                let s = node as! DiamondSprite
+            enumerateChildNodes(withName: "Enemy", using: {node, stop in
+                let s = node as! AlienSprite
                 let halfWidth = s.frame.width/2
                 let halfHeight = s.frame.height/2
                 
@@ -282,13 +221,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
                 if(s.position.x <= halfWidth || s.position.x >= self.size.width - halfWidth){
                     s.reflectX()
                     s.update(dt: dt)
-                    self.levelScore += 1
                 }
                 
                 if(s.position.y <= self.playbleRect.minY + halfHeight || s.position.y >= self.playbleRect.maxY - halfHeight) {
                     s.reflectY()
                     s.update(dt: dt)
-                    self.levelScore += 1
                 }
             })
         }

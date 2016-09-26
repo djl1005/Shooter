@@ -19,8 +19,9 @@ class Bullet{
         if(isPlayer){
             sprite = SKSpriteNode(imageNamed:"bullet.png")
             setUp(spawnPoint: spawnPoint)
+            sprite.zRotation = CGFloat(-M_PI * 0.5)
             
-            sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Bullet
+            sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PLayerBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Enemy
             
             secene.addChild(sprite)
@@ -41,6 +42,26 @@ class Bullet{
         } else {
             sprite = SKSpriteNode(imageNamed:"bullet.png") // TODO: change to enemy bullet
             setUp(spawnPoint: spawnPoint)
+            
+            sprite.zRotation = CGFloat(M_PI * 0.5)
+            
+            sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.EnemyBullet
+            sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayer
+            
+            secene.addChild(sprite)
+            
+            // how long until bullet reaches destination?
+            let bulletLifeTime = CGFloat(4.0)
+            
+            
+            // move to the end of screen in 3 seconds, maintaining y position
+            let actionMove = SKAction.move(to: CGPoint(x: 0, y: spawnPoint.y), duration: TimeInterval(bulletLifeTime))
+            
+            let actionMoveDone = SKAction.removeFromParent()
+            
+            // run actions above
+            sprite.run(SKAction.sequence([actionMove, actionMoveDone]))
+
         }
         
     }
@@ -48,7 +69,7 @@ class Bullet{
     // Universal setuUp for bullets
     private func setUp(spawnPoint:CGPoint){
         sprite.position = spawnPoint
-        sprite.zRotation = CGFloat(-M_PI * 0.5)
+        
         sprite.size = CGSize(width: sprite.size.width/2, height: sprite.size.height/2)
         
         sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size)
