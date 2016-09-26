@@ -17,10 +17,6 @@ class AlienSprite: SKSpriteNode {
     var hit:Bool = false
     var health:Int
     
-    //var act:SKAction
-    
-    var isFiring = false
-    
     
     init(){
         health = 3

@@ -167,6 +167,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         bullet.removeFromParent()
     }
     
+    func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
+        print("BAM")
+        player.lifes -= 1
+        lifesLabel.text = "Lifes: \(player.lifes)"
+        if player.lifes <= 0{
+            player.removeFromParent()
+            //TODO: end state
+        }
+        bullet.removeFromParent()
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         
         // 1
@@ -185,6 +196,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             (secondBody.categoryBitMask & GameData.PhysicsCategory.Enemy != 0) &&
             firstBody.node != nil && secondBody.node != nil) {
             playerBulletCollided(enemy: secondBody.node as! AlienSprite, bullet: firstBody.node as! SKSpriteNode)
+        }
+        
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PLayer != 0) &&
+            (secondBody.categoryBitMask & GameData.PhysicsCategory.EnemyBullet != 0) &&
+            firstBody.node != nil && secondBody.node != nil) {
+            enemyBulletCollided(player: firstBody.node as! PlayerSprite, bullet: secondBody.node as! SKSpriteNode )
         }
         
     }

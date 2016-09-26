@@ -20,6 +20,14 @@ class PlayerSprite: SKSpriteNode {
         self.position = CGPoint(x: 200, y: 540)
         self.zRotation = CGFloat(-M_PI * 0.5)
         
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
+        self.physicsBody?.isDynamic = true
+        self.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PLayer
+        self.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.EnemyBullet
+        self.physicsBody?.collisionBitMask = GameData.PhysicsCategory.None
+        self.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.affectedByGravity = false
+        
     }
     
     required init(coder aDecoder: NSCoder) {
