@@ -14,7 +14,7 @@ struct GameData{
     }
     static let maxLevel = 3
     struct font{
-        static let mainFont = "Chalkduster"
+        static let mainFont = "Optima"
     }
     
     struct hud{
@@ -40,7 +40,7 @@ struct GameData{
     }
     
     struct scene {
-        static let backgroundColor = SKColor(red: 0.878, green: 0.69, blue: 1.0, alpha: 1.0)
+        static let backgroundColor = SKColor(red: 0.0, green: 0.69, blue: 1.0, alpha: 1.0)
     }
     
     struct PhysicsCategory{

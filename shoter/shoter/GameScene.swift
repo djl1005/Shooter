@@ -12,6 +12,7 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
     
+    var enemySpawnRate = 3
 
     let sceneManager:GameViewController
     
@@ -19,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     var playbleRect = CGRect.zero
     var enemyRect = CGRect.zero //area where enemies can spawn
-    var totalSprites = 0
+    var numEnemies = 0;
     
     let lifesLabel = SKLabelNode(fontNamed: "Futura")
     
@@ -44,14 +45,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     override func didMove(to view: SKView) {
         setupUI()
-        makeEnemies(howMany: 10)
+        //makeEnemies()
         unpauseSprites()
         
         // spawns bullets infinitely
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(spawnBullet),
-                SKAction.wait(forDuration: 0.2),
+                SKAction.wait(forDuration: 0.3),
+                ])
+        ))
+        
+        run(SKAction.repeatForever(
+            SKAction.sequence([
+                SKAction.run(makeEnemies),
+                SKAction.wait(forDuration: 3),
                 ])
         ))
     }
@@ -68,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         let marginH = GameData.hud.marginH
         let marginV = GameData.hud.marginV
         
-        backgroundColor = GameData.hud.backgroundColor
+        self.view?.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
         
         lifesLabel.fontColor = fontColor
         lifesLabel.fontSize = fontSize
@@ -78,8 +86,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         lifesLabel.text = "Lifes: \(player.lifes)"
         addChild(lifesLabel)
-        
-        
 
         addChild(player)
         
@@ -125,11 +131,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
     }
     
-    func makeEnemies(howMany:Int){
+    func makeEnemies(){
+        
+        if(numEnemies + enemySpawnRate > 10 ){ return }
+        
+        numEnemies += enemySpawnRate
         
         var s:AlienSprite
         
-        for _ in 0...howMany-1{
+        for _ in 0...enemySpawnRate-1{
             s = AlienSprite()
             s.name = "Enemy"
             
@@ -163,6 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         enemy.health -= 1
         if enemy.health <= 0{
         enemy.removeFromParent()
+            numEnemies -= 1;
         }
         bullet.removeFromParent()
     }
@@ -174,6 +185,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         if player.lifes <= 0{
             player.removeFromParent()
             //TODO: end state
+            let results = LevelResults(levelNum: 1, levelScore: 0, totalScore: 0, msg: "Game Over")
+            sceneManager.loadGameOverScene(results: results)
+            
         }
         bullet.removeFromParent()
     }
