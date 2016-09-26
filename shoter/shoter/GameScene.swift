@@ -16,6 +16,14 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(levelScore)"
         }
     }
+    
+    struct PhysicsCategory{
+        static let None : UInt32 = 0
+        static let All : UInt32 = UInt32.max
+        static let Bullet : UInt32 = 0b1
+        static let Target : UInt32 = 0b10
+    }
+    
     var totalScore:Int
     let sceneManager:GameViewController
     
@@ -162,6 +170,15 @@ class GameScene: SKScene {
             s.position = randomCGPointInRect(playbleRect, margin: 300)
             s.fwd = CGPoint.randomUnitVector()
             addChild(s)
+            
+            // check physics body of sprite (Hopefully will collide with bullet)
+            s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:60,height:100))
+            s.physicsBody?.isDynamic = true
+            s.physicsBody?.categoryBitMask = PhysicsCategory.Target
+            s.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet
+            s.physicsBody?.collisionBitMask = PhysicsCategory.None
+            s.physicsBody?.usesPreciseCollisionDetection = true
+            s.physicsBody?.affectedByGravity = false
         }
     }
     
@@ -173,7 +190,8 @@ class GameScene: SKScene {
             // set up spawn location
             let bullet = SKSpriteNode(imageNamed:"bullet.png")
             
-            bullet.position = CGPoint(x: player.position.x, y: player.position.y)
+            //bullet.position = CGPoint(x: player.position.x, y: player.position.y)
+            bullet.position = player.position
             bullet.zRotation = CGFloat(-M_PI * 0.5)
             bullet.size = CGSize(width: bullet.size.width/2, height: bullet.size.height/2)
             
@@ -181,11 +199,20 @@ class GameScene: SKScene {
             addChild(bullet)
             
             
+            // check physics collision
+            bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
+            bullet.physicsBody?.isDynamic = true
+            bullet.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
+            bullet.physicsBody?.contactTestBitMask = PhysicsCategory.Target
+            bullet.physicsBody?.collisionBitMask = PhysicsCategory.None
+            bullet.physicsBody?.affectedByGravity = false
+            
             // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(3.0)
             
-            // arbitrary X for the moment
-            let actionMove = SKAction.move(to: CGPoint(x: 1000, y: player.position.y), duration: TimeInterval(bulletLifeTime))
+            
+            // move to the end of screen in 3 seconds, maintaining y position
+            let actionMove = SKAction.move(to: CGPoint(x: self.size.width - bullet.size.width/2, y: player.position.y), duration: TimeInterval(bulletLifeTime))
             
             let actionMoveDone = SKAction.removeFromParent()
             
@@ -195,6 +222,34 @@ class GameScene: SKScene {
         
     }
     
+    // create a handler to check for bullet collision
+    func bulletCollided(target:SKSpriteNode,bullet:SKSpriteNode){
+        target.removeFromParent()
+        bullet.removeFromParent()
+        
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // 1
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // 2
+        if ((firstBody.categoryBitMask & PhysicsCategory.Bullet != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Target != 0)) {
+            bulletCollided(target: firstBody.node as! SKSpriteNode, bullet: secondBody.node as! SKSpriteNode)
+        }
+        
+    }
+
     //MARK: -Game Loop-
     
     func unpauseSprites(){
