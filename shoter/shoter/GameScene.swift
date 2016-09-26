@@ -20,8 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     struct PhysicsCategory{
         static let None : UInt32 = 0
         static let All : UInt32 = UInt32.max
-        static let Bullet : UInt32 = 0b1
-        static let Target : UInt32 = 0b10
+        static let Bullet : UInt32 = 0b1 // 1
+        static let Target : UInt32 = 0b10 // 2
     }
     
     var totalScore:Int
@@ -175,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             addChild(s)
             
             // check physics body of sprite (Hopefully will collide with bullet)
-            s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:60,height:100))
+            s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
             s.physicsBody?.isDynamic = true
             s.physicsBody?.categoryBitMask = PhysicsCategory.Target
             s.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet
@@ -226,7 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     // create a handler to check for bullet collision
-    func bulletCollided(target:SKSpriteNode,bullet:SKSpriteNode){
+    func bulletCollided(target:SKSpriteNode,bullet:SKShapeNode){
         print("BOOM")
         target.removeFromParent()
         bullet.removeFromParent()
@@ -239,8 +239,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
+            firstBody = contact.bodyA // bullet
+            secondBody = contact.bodyB // target
         } else {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
@@ -248,8 +248,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         // 2
         if ((firstBody.categoryBitMask & PhysicsCategory.Bullet != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Target != 0)) {
-            bulletCollided(target: firstBody.node as! SKSpriteNode, bullet: secondBody.node as! SKSpriteNode)
+            (secondBody.categoryBitMask & PhysicsCategory.Target != 0) &&
+            firstBody.node != nil && secondBody.node != nil) {
+            bulletCollided(target: firstBody.node as! SKSpriteNode, bullet: secondBody.node as! SKShapeNode)
         }
         
     }
