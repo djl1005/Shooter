@@ -167,16 +167,21 @@ class GameScene: SKScene {
     
     // spawns bullets into game
     func spawnBullet(){
+        // only spawn if player is firing
         if player.isFiring{
+            
+            // set up spawn location
             let bullet = SKSpriteNode(imageNamed:"bullet.png")
             
             bullet.position = CGPoint(x: player.position.x, y: player.position.y)
             bullet.zRotation = CGFloat(-M_PI * 0.5)
             bullet.size = CGSize(width: bullet.size.width/2, height: bullet.size.height/2)
+            
+            // add bullet into gamescene
             addChild(bullet)
             
             
-            
+            // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(3.0)
             
             // arbitrary X for the moment
@@ -184,6 +189,7 @@ class GameScene: SKScene {
             
             let actionMoveDone = SKAction.removeFromParent()
             
+            // run actions above
             bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
         }
         
