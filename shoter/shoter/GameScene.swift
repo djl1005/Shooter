@@ -28,7 +28,7 @@ class GameScene: SKScene {
     let scoreLabel = SKLabelNode(fontNamed: "Futura")
     let otherLabel = SKLabelNode(fontNamed: "Futura")
     
-    let player = PlayerSprite();
+    let player = PlayerSprite()
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
@@ -113,6 +113,14 @@ class GameScene: SKScene {
             if let touch = touches.first {
                  player.position.y = touch.location(in: self).y
                  player.isFiring = true
+                
+                // spawns bullets infinitely
+                run(SKAction.repeatForever(
+                    SKAction.sequence([
+                        SKAction.run(spawnBullet),
+                        SKAction.wait(forDuration: 0.75),
+                        ])
+                ))
             }
             
             return
@@ -155,6 +163,30 @@ class GameScene: SKScene {
             s.fwd = CGPoint.randomUnitVector()
             addChild(s)
         }
+    }
+    
+    // spawns bullets into game
+    func spawnBullet(){
+        if player.isFiring{
+            let bullet = SKSpriteNode(imageNamed:"bullet.png")
+            
+            bullet.position = CGPoint(x: player.position.x, y: player.position.y)
+            bullet.zRotation = CGFloat(-M_PI * 0.5)
+            bullet.size = CGSize(width: bullet.size.width/2, height: bullet.size.height/2)
+            addChild(bullet)
+            
+            
+            
+            let bulletLifeTime = CGFloat(3.0)
+            
+            // arbitrary X for the moment
+            let actionMove = SKAction.move(to: CGPoint(x: 1000, y: player.position.y), duration: TimeInterval(bulletLifeTime))
+            
+            let actionMoveDone = SKAction.removeFromParent()
+            
+            bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
+        }
+        
     }
     
     //MARK: -Game Loop-
