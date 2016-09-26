@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
     var levelScore:Int = 0 {
         didSet{
@@ -108,6 +108,9 @@ class GameScene: SKScene {
         player.position = CGPoint(x: 300, y: 540)
         player.zRotation = CGFloat(-M_PI * 0.5)
         addChild(player)
+        
+        // checks to see if two objects collide
+        physicsWorld.contactDelegate = self
     }
     
     //MARK: -events-
@@ -224,6 +227,7 @@ class GameScene: SKScene {
     
     // create a handler to check for bullet collision
     func bulletCollided(target:SKSpriteNode,bullet:SKSpriteNode){
+        print("BOOM")
         target.removeFromParent()
         bullet.removeFromParent()
         
