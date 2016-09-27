@@ -16,13 +16,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 
     let sceneManager:GameViewController
     
-    var tapCount = 0
-    
     var playbleRect = CGRect.zero
     var enemyRect = CGRect.zero //area where enemies can spawn
     var numEnemies = 0;
     
     let lifesLabel = SKLabelNode(fontNamed: "Futura")
+    
+    
     
     let player = PlayerSprite()
     
@@ -76,7 +76,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         let marginH = GameData.hud.marginH
         let marginV = GameData.hud.marginV
         
-        self.view?.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
+        //backgroundColor = UIColor.black
+        
+        
+        let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "gameBg")), size: size)
+        
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        background.zPosition = GameData.drawOrder.bg
+        
+        addChild(background)
         
         lifesLabel.fontColor = fontColor
         lifesLabel.fontSize = fontSize

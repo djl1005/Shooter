@@ -22,7 +22,7 @@ class AlienSprite: SKSpriteNode {
         health = 3
         super.init(texture: SKTexture(image: #imageLiteral(resourceName: "Alien")),  color: GameData.player.playerColor, size: GameData.player.playerSize);
         self.zRotation = CGFloat(M_PI * 0.5)
-        
+        self.zPosition = GameData.drawOrder.enemy
         
         run(SKAction.repeatForever(
             SKAction.sequence([

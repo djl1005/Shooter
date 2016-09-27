@@ -28,6 +28,8 @@ class PlayerSprite: SKSpriteNode {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.affectedByGravity = false
         
+        self.zPosition = GameData.drawOrder.player
+        
     }
     
     required init(coder aDecoder: NSCoder) {

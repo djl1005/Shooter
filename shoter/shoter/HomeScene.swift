@@ -41,16 +41,26 @@ class HomeScene:SKScene{
         label.zPosition = 1
         label2.zPosition = 1
         
-        addChild(label)
-        addChild(label2)
-        
-        //label 3 is image
-        
         let label4 = SKLabelNode(fontNamed: GameData.font.mainFont)
         label4.text = "Tap to continue"
         label4.fontColor = UIColor.white
         label4.fontSize = 70
         label4.position = CGPoint(x:size.width/2, y: size.height/2 - 400)
+        
+        let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "bg")), size: size)
+        
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        background.zPosition = GameData.drawOrder.bg
+        
+        addChild(background)
+        
+        addChild(label)
+        addChild(label2)
+        
+        //label 3 is image
+        
+
         addChild(label4)
     }
     

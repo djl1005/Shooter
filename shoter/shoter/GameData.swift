@@ -18,7 +18,6 @@ struct GameData{
     }
     
     struct hud{
-        static let backgroundColor = SKColor.red
         static let fontSize = CGFloat(64.0)
         static let fontColorWhite = SKColor(red: 0.90, green: 0.90, blue: 0.90, alpha: 1.0)
         static let marginV = CGFloat(12.0)
@@ -50,6 +49,15 @@ struct GameData{
         static let PLayerBullet : UInt32 = 0b10 //2
         static let Enemy : UInt32 = 0b100 //4
         static let EnemyBullet : UInt32 = 0b1000 // 8
+    }
+    
+    struct drawOrder {
+        static let bg :CGFloat = 0
+        static let playerBullet :CGFloat = 1
+        static let enemy :CGFloat = 2
+        static let enemyBullet :CGFloat = 3
+        static let player :CGFloat = 100
+        
     }
 }
 

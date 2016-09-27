@@ -21,6 +21,14 @@ class GameOverScene: SKScene {
     override func didMove(to view: SKView){
         backgroundColor = GameData.scene.backgroundColor
         
+        let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "bg")), size: size)
+        
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        background.zPosition = GameData.drawOrder.bg
+        
+        addChild(background)
+        
         let label = SKLabelNode(fontNamed: GameData.font.mainFont)
         label.text = "Game Over"
         label.fontSize = 100

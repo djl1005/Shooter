@@ -21,6 +21,8 @@ class Bullet{
             setUp(spawnPoint: spawnPoint)
             sprite.zRotation = CGFloat(-M_PI * 0.5)
             
+            sprite.zPosition = GameData.drawOrder.playerBullet
+            
             sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PLayerBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Enemy
             
@@ -44,6 +46,8 @@ class Bullet{
             setUp(spawnPoint: spawnPoint)
             
             sprite.zRotation = CGFloat(M_PI * 0.5)
+            
+            sprite.zPosition = GameData.drawOrder.enemyBullet
             
             sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.EnemyBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayer
