@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1711DA1DEF5004F74D7 /* Space.sks */; };
+		3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1721DA1DEF5004F74D7 /* spark.png */; };
 		3F7925381D9863AA00107727 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925341D9863AA00107727 /* CGFloat+Extensions.swift */; };
 		3F7925391D9863AA00107727 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925351D9863AA00107727 /* CGPoint+Extensions.swift */; };
 		3F79253A1D9863AA00107727 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925361D9863AA00107727 /* GameData.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F6CE1711DA1DEF5004F74D7 /* Space.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Space.sks; sourceTree = "<group>"; };
+		3F6CE1721DA1DEF5004F74D7 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		3F7925341D9863AA00107727 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		3F7925351D9863AA00107727 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		3F7925361D9863AA00107727 /* GameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 				3F79253C1D98696B00107727 /* PlayerSprite.swift */,
 				3FF0BA8E1D99BE2E00A44A38 /* Bullet.swift */,
 				3FF0BA901D99C85600A44A38 /* AlienSprite.swift */,
+				3F6CE1711DA1DEF5004F74D7 /* Space.sks */,
+				3F6CE1721DA1DEF5004F74D7 /* spark.png */,
 			);
 			name = Sprite;
 			sourceTree = "<group>";
@@ -214,7 +220,9 @@
 				3FAF850F1D943496004E451B /* GameScene.sks in Resources */,
 				3FAF851A1D943496004E451B /* Assets.xcassets in Resources */,
 				3FAF851D1D943496004E451B /* LaunchScreen.storyboard in Resources */,
+				3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */,
 				3FAF85111D943496004E451B /* Actions.sks in Resources */,
+				3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

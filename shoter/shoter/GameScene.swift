@@ -22,6 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     let lifesLabel = SKLabelNode(fontNamed: "Futura")
     
+    let spaceEmitter = SKEmitterNode(fileNamed: "Space")!
     
     
     let player = PlayerSprite()
@@ -100,6 +101,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         // checks to see if two objects collide
         physicsWorld.contactDelegate = self
+        
+        spaceEmitter.position = CGPoint(x:frame.width/2, y: frame.height/2)
+        spaceEmitter.zPosition = 5
+        addChild(spaceEmitter)
     }
     
     //MARK: -events-
