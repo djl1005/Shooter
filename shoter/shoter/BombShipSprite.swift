@@ -103,9 +103,14 @@ class BombShipSprite: SKSpriteNode {
             // move to the end of screen in 3 seconds, maintaining y position
             let fire = SKAction.move(to: CGPoint(x: 2000, y: self.position.y), duration: TimeInterval(bulletLifeTime))
             
+            let damage = SKAction.run {
+                let s = self.scene as! GameScene
+                s.fHealth -= 1;
+            }
+            
             let done = SKAction.removeFromParent()
             
-            let sequence = SKAction.sequence([fire, done])
+            let sequence = SKAction.sequence([fire, damage ,done])
             //print ("FIRING")
             self.bullet.run(sequence, withKey: "Firing")
         }

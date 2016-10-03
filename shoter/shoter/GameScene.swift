@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var numEnemies = 0;
     
     let livesLabel = SKLabelNode(fontNamed: "Futura")
+    let fHealthLabel = SKLabelNode(fontNamed: "Futura")
     
     let bombLaunchLabel = SKLabelNode(fontNamed: "Futura")
     
@@ -35,6 +36,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     var spritesMoving = false
+    
+    var fHealth: Int = 10 {
+        didSet{
+            fHealthLabel.text = "Enemy Health: \(fHealth)"
+            
+            if(fHealth <= 0){
+                let results = LevelResults(levelNum: levelNum, levelScore: 0, totalScore: 0, msg: "you finished level \(levelNum)")
+                    sceneManager.loadLevelFinishScene(results: results)
+            }
+        }
+    }
     
     //MARK: - Init -
     
@@ -103,6 +115,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         livesLabel.zPosition = GameData.drawOrder.hud
         
         
+        fHealthLabel.fontColor = fontColor
+        fHealthLabel.fontSize = fontSize
+        fHealthLabel.position = CGPoint(x: marginH + 1300, y: playableRect.maxY - marginV)
+        fHealthLabel.verticalAlignmentMode = .top
+        fHealthLabel.horizontalAlignmentMode = .left
+        fHealthLabel.text = "Enemy Health: \(fHealth)"
+        fHealthLabel.zPosition = GameData.drawOrder.hud
+        
+        livesLabel.text = "Lives: \(player.lives)"
+        livesLabel.zPosition = GameData.drawOrder.hud
+        
+        
         bombLaunchLabel.fontColor = fontColor
         bombLaunchLabel.fontSize = fontSize + 10
         bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV + 100)
@@ -113,7 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         bombLaunchLabel.text = "Launch!"
         bombLaunchLabel.isUserInteractionEnabled = true
         
-            
+        addChild(fHealthLabel)
         addChild(bombLaunchLabel)
         addChild(livesLabel)
 

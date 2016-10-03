@@ -32,15 +32,8 @@ class LevelFinishScene: SKScene {
         label2.position = CGPoint(x:size.width/2, y:size.height/2 + 100)
         addChild(label2)
         
-        let label3 = SKLabelNode(fontNamed: GameData.font.mainFont)
-        label3.text = "You got \(results.levelScore) diamonds!"
-        label3.fontSize = 70
-        label3.position = CGPoint(x:size.width/2, y:size.height/2 - 100)
-        addChild(label3)
-        
         let label4 = SKLabelNode(fontNamed: GameData.font.mainFont)
         label4.text = "Tap to continue"
-        label4.fontColor = UIColor.red
         label4.fontSize = 70
         label4.position = CGPoint(x:size.width/2, y:size.height/2 - 400)
         addChild(label4)
