@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     
     let player = PlayerSprite()
+    let bombShip = BombShipSprite()
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
@@ -43,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     required init?(coder aDecoder: NSCoder){
-        fatalError("not implmented")
+        fatalError("not implemented")
     }
     
     override func didMove(to view: SKView) {
@@ -96,16 +97,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         livesLabel.verticalAlignmentMode = .top
         livesLabel.horizontalAlignmentMode = .left
         
-        livesLabel.text = "Lifes: \(player.lifes)"
+        livesLabel.text = "Lives: \(player.lives)"
+        
         
         bombLaunchLabel.fontColor = fontColor
         bombLaunchLabel.fontSize = fontSize + 10
-        bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV)
+        bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV + 100)
         bombLaunchLabel.verticalAlignmentMode = .bottom
         bombLaunchLabel.horizontalAlignmentMode = .center
         
+        bombLaunchLabel.name = "Bomb"
         bombLaunchLabel.text = "Launch!"
+        bombLaunchLabel.isUserInteractionEnabled = true
         
+            
         addChild(bombLaunchLabel)
         addChild(livesLabel)
 
@@ -122,15 +127,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     //MARK: -events-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        //player movment
+        if let touch = touches.first {
+            player.position.y = touch.location(in: self).y
+            player.isFiring = true
             
-            //player movment
+        }
         
-            if let touch = touches.first {
-                 player.position.y = touch.location(in: self).y
-                 player.isFiring = true
+        // launches the ship
+        for touch: AnyObject in touches{
+            let location = touch.location(in:self)
+            if bombLaunchLabel.contains(location){
+                if bombShip.canLaunch{
+                    addChild(bombShip)
+                    print("BOMBING")
+                    bombShip.canLaunch = false
+                    
+                    
+                }
             }
+        }
+        
+        
             
-            return
+        return
         
         
 //        if levelNum < GameData.maxLevel{
@@ -155,6 +175,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             player.position.y = touch.location(in: self).y
             player.isFiring = false
         }
+    }
+    
+    func launchBomb(){
+        addChild(bombShip)
     }
     
     func makeEnemies(){
@@ -206,9 +230,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
         print("BAM")
-        player.lifes -= 1
-        livesLabel.text = "Lifes: \(player.lifes)"
-        if player.lifes <= 0{
+        player.lives -= 1
+        livesLabel.text = "Lifes: \(player.lives)"
+        if player.lives <= 0{
             player.removeFromParent()
             //TODO: end state
             let results = LevelResults(levelNum: 1, levelScore: 0, totalScore: 0, msg: "Game Over")
@@ -249,11 +273,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     //MARK: -Game Loop-
     
     func unpauseSprites(){
-        let unpsuseAction = SKAction.sequence([
+        let unpauseAction = SKAction.sequence([
             SKAction.wait(forDuration: 2),
             SKAction.run({self.spritesMoving = true})
         ])
-        run(unpsuseAction)
+        run(unpauseAction)
     }
     
     func calculateDeltaTime(currentTime: TimeInterval){

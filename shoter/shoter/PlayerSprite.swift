@@ -12,7 +12,7 @@ import SpriteKit
 class PlayerSprite: SKSpriteNode {
     
     var isFiring = false
-    var lifes = 5
+    var lives = 5
     
     
     init(){

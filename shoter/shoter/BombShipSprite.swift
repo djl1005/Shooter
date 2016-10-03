@@ -12,9 +12,9 @@ import SpriteKit
 // create bombship object
 class BombShipSprite: SKSpriteNode {
     
+    var canLaunch = true
     var isFiring = false
     var health = 10
-    
     
     init(){
         super.init(texture: SKTexture(imageNamed:"BombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
@@ -38,5 +38,6 @@ class BombShipSprite: SKSpriteNode {
     required init(coder aDecoder: NSCoder) {
         fatalError("ds")
     }
+    
     
 }
