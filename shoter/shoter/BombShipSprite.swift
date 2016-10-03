@@ -34,6 +34,7 @@ class BombShipSprite: SKSpriteNode {
         // same as player
         self.zPosition = GameData.drawOrder.player
         
+
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -45,14 +46,14 @@ class BombShipSprite: SKSpriteNode {
         //let bombApproachSpeed = CGFloat(10.0)
         //let raidSpeed = CGFloat(15.0)
         let bombApproachSpeed = CGFloat(4.0)
-        let raidSpeed = CGFloat(4.0)
+        let raidSpeed = CGFloat(15.0)
         
         
         // move to the end of screen in 3 seconds, maintaining y position
         let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1500, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
         
         // rotate by 90 degrees
-        let actionRotate = SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 3.0)
+        let actionRotate = SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 2.0)
         
         let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1500, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
         
@@ -60,17 +61,24 @@ class BombShipSprite: SKSpriteNode {
         
         let actionDone = SKAction.removeFromParent()
         
+        // group two actions together
+        var fireAndMove = Array<SKAction>()
+        
+        fireAndMove.append(actionFlyUp)
+        fireAndMove.append(spawnBullet())
+        let FAM = SKAction.group(fireAndMove)
+        
         run(SKAction.sequence([
             actionApproach,
             actionRotate,
-            fireAction(),
-            actionFlyUp,
+            FAM,
             fireStop(),
             actionRotate,
             actionFlyBack,
             actionDone
             ])
         )
+        
     }
     //func fire(){
         //bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
@@ -82,11 +90,9 @@ class BombShipSprite: SKSpriteNode {
             self.bullet.position = CGPoint(x:self.position.x,y:self.position.y)
             self.bullet.zRotation = CGFloat(-M_PI * 0.5)
             self.bullet.size = CGSize(width: self.bullet.size.width/2, height: self.bullet.size.height/2)
-            let scene = self.parent as! SKScene
             
-            scene.addChild(self.bullet)
-            
-            let wait = SKAction.wait(forDuration: 1.0)
+            // TODO: Make Bullet visible on scene
+            self.parent?.addChild(self.bullet)
             
             // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(2.0)
@@ -97,11 +103,26 @@ class BombShipSprite: SKSpriteNode {
             
             let done = SKAction.removeFromParent()
             
-            let sequence = SKAction.repeatForever(SKAction.sequence([fire, wait, done]))
+            let sequence = SKAction.sequence([fire, done])
             //print ("FIRING")
             self.bullet.run(sequence, withKey: "Firing")
         }
     }
+    // crashes! 
+    func spawnBullet() -> SKAction{
+        return SKAction.repeatForever(SKAction.sequence([fireAction(), SKAction.wait(forDuration: 1.0)]))
+    }
+    // CRASHES!
+    //func spawnBullet() -> SKAction{
+    //   return SKAction.run{
+    //        self.run(SKAction.repeatForever(
+    //            SKAction.sequence([
+    //                self.fireAction(),
+    //               SKAction.wait(forDuration: 1.0)
+    //                ])
+    //       ))
+    //    }
+    //}
     
     func fireStop() -> SKAction{
         return SKAction.run{
