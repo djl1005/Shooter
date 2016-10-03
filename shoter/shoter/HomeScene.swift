@@ -35,6 +35,9 @@ class HomeScene:SKScene{
         label.fontSize = 200
         label2.fontSize = 200
         
+        label.zPosition = GameData.drawOrder.hud
+        label2.zPosition = GameData.drawOrder.hud
+        
         label.position = CGPoint(x:size.width/2, y: size.height/2 + 200)
         label2.position = CGPoint(x:size.width/2, y: size.height/2 - 200)
         
@@ -46,6 +49,8 @@ class HomeScene:SKScene{
         label4.fontColor = UIColor.white
         label4.fontSize = 70
         label4.position = CGPoint(x:size.width/2, y: size.height/2 - 400)
+        
+        label4.zPosition = GameData.drawOrder.hud
         
         let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "bg")), size: size)
         

@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     let spaceEmitter = SKEmitterNode(fileNamed: "Space")!
     
+    var tapY : CGFloat?
+    
     
     let player = PlayerSprite()
     let bombShip = BombShipSprite()
@@ -98,6 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         livesLabel.horizontalAlignmentMode = .left
         
         livesLabel.text = "Lives: \(player.lives)"
+        livesLabel.zPosition = GameData.drawOrder.hud
         
         
         bombLaunchLabel.fontColor = fontColor
@@ -105,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV + 100)
         bombLaunchLabel.verticalAlignmentMode = .bottom
         bombLaunchLabel.horizontalAlignmentMode = .center
-        
+        //bombLaunchLabel.zPosition = GameData.drawOrder.hud
         bombLaunchLabel.name = "Bomb"
         bombLaunchLabel.text = "Launch!"
         bombLaunchLabel.isUserInteractionEnabled = true
@@ -129,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         //player movment
         if let touch = touches.first {
-            player.position.y = touch.location(in: self).y
+            tapY = touch.location(in: self).y
             player.isFiring = true
             
         }
@@ -166,13 +169,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            player.position.y = touch.location(in: self).y
+            tapY = touch.location(in: self).y
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            player.position.y = touch.location(in: self).y
+        if touches.first != nil {
+            tapY = nil
             player.isFiring = false
         }
     }
@@ -292,6 +295,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     func moveSprites(dt: CGFloat){
+        
+        if let y = tapY {
+            
+            let maxMove = GameData.player.shipMaxSpeedPerSecond * dt
+            let close = abs(y - player.position.y) <= maxMove
+            
+            if(close){
+                player.position.y = y
+            } else {
+                
+                if(y > player.position.y){
+                    player.position.y += maxMove
+                } else {
+                    player.position.y -= maxMove
+                }
+                
+            }
+            
+            
+            
+        }
+        
         if spritesMoving{
             enumerateChildNodes(withName: "Enemy", using: {node, stop in
                 let s = node as! AlienSprite

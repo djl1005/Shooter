@@ -15,7 +15,7 @@ class BombShipSprite: SKSpriteNode {
     var canLaunch = true
     var isFiring = false
     var health = 10
-    let bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
+    var bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
     
     init(){
         super.init(texture: SKTexture(imageNamed:"BombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
@@ -87,12 +87,14 @@ class BombShipSprite: SKSpriteNode {
     func fireAction() -> SKAction{
         return SKAction.run{
             
+            self.bullet = SKSpriteNode(imageNamed:"bullet.png")
+            
             self.bullet.position = CGPoint(x:self.position.x,y:self.position.y)
             self.bullet.zRotation = CGFloat(-M_PI * 0.5)
             self.bullet.size = CGSize(width: self.bullet.size.width/2, height: self.bullet.size.height/2)
             
             // TODO: Make Bullet visible on scene
-            self.parent?.addChild(self.bullet)
+            self.scene!.addChild(self.bullet)
             
             // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(2.0)
@@ -108,7 +110,6 @@ class BombShipSprite: SKSpriteNode {
             self.bullet.run(sequence, withKey: "Firing")
         }
     }
-    // crashes! 
     func spawnBullet() -> SKAction{
         return SKAction.repeatForever(SKAction.sequence([fireAction(), SKAction.wait(forDuration: 1.0)]))
     }

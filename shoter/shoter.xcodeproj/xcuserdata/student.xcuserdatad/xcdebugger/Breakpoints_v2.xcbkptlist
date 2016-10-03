@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shoter/BombShipSprite.swift"
-            timestampString = "497216992.506152"
+            timestampString = "497222660.407724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "BombShipSprite"
             landmarkType = "3">
          </BreakpointContent>
