@@ -131,10 +131,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV + 100)
         bombLaunchLabel.verticalAlignmentMode = .bottom
         bombLaunchLabel.horizontalAlignmentMode = .center
-        //bombLaunchLabel.zPosition = GameData.drawOrder.hud
+        
         bombLaunchLabel.name = "Bomb"
         bombLaunchLabel.text = "Launch!"
-        bombLaunchLabel.isUserInteractionEnabled = true
+        //bombLaunchLabel.isUserInteractionEnabled = true
+        bombLaunchLabel.zPosition = GameData.drawOrder.hud
         
         addChild(fHealthLabel)
         addChild(bombLaunchLabel)

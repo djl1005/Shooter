@@ -20,7 +20,7 @@ class PlayerSprite: SKSpriteNode {
         self.position = CGPoint(x: 400, y: 540)
         self.zRotation = CGFloat(-M_PI * 0.5)
         
-        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:30))
         self.physicsBody?.isDynamic = true
         self.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Player
         self.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.EnemyBullet
