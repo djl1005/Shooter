@@ -1,33 +1,36 @@
 //
-//  PlayerSprite.swift
+//  BombShipSprite.swift
 //  shoter
 //
-//  Created by student on 9/25/16.
-//  Copyright © 2016 djl1005. All rights reserved.
+//  Created by Sung Choi on 10/2/16.
+//  Copyright © 2016 swc1098. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class PlayerSprite: SKSpriteNode {
+// create bombship object
+class BombShipSprite: SKSpriteNode {
     
     var isFiring = false
-    var lifes = 5
+    var health = 10
     
     
     init(){
-        super.init(texture: SKTexture(image:#imageLiteral(resourceName: "Spaceship")),  color: GameData.player.playerColor, size: GameData.player.playerSize);
-        self.position = CGPoint(x: 400, y: 540)
+        super.init(texture: SKTexture(imageNamed:"BombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
+        self.position = CGPoint(x: 200, y: 100)
         self.zRotation = CGFloat(-M_PI * 0.5)
         
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
+        
         self.physicsBody?.isDynamic = true
-        self.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Player
+        self.physicsBody?.categoryBitMask = GameData.PhysicsCategory.BombShip
         self.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.EnemyBullet
         self.physicsBody?.collisionBitMask = GameData.PhysicsCategory.None
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.affectedByGravity = false
         
+        // same as player
         self.zPosition = GameData.drawOrder.player
         
     }

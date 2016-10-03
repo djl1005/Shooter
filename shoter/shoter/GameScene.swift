@@ -16,11 +16,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 
     let sceneManager:GameViewController
     
-    var playbleRect = CGRect.zero
+    var playableRect = CGRect.zero
     var enemyRect = CGRect.zero //area where enemies can spawn
     var numEnemies = 0;
     
-    let lifesLabel = SKLabelNode(fontNamed: "Futura")
+    let livesLabel = SKLabelNode(fontNamed: "Futura")
+    
+    let bombLaunchLabel = SKLabelNode(fontNamed: "Futura")
     
     let spaceEmitter = SKEmitterNode(fileNamed: "Space")!
     
@@ -70,8 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     private func setupUI(){
-        playbleRect = getPlayableRectPhoneLandscape(size: size)
-        enemyRect = CGRect(x: playbleRect.width/2, y: 0, width: playbleRect.width/2, height: playbleRect.height)
+        playableRect = getPlayableRectPhoneLandscape(size: size)
+        enemyRect = CGRect(x: playableRect.width/2, y: 0, width: playableRect.width/2, height: playableRect.height)
         let fontSize = GameData.hud.fontSize
         let fontColor = GameData.hud.fontColorWhite
         let marginH = GameData.hud.marginH
@@ -88,14 +90,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         addChild(background)
         
-        lifesLabel.fontColor = fontColor
-        lifesLabel.fontSize = fontSize
-        lifesLabel.position = CGPoint(x: marginH, y: playbleRect.maxY - marginV)
-        lifesLabel.verticalAlignmentMode = .top
-        lifesLabel.horizontalAlignmentMode = .left
+        livesLabel.fontColor = fontColor
+        livesLabel.fontSize = fontSize
+        livesLabel.position = CGPoint(x: marginH, y: playableRect.maxY - marginV)
+        livesLabel.verticalAlignmentMode = .top
+        livesLabel.horizontalAlignmentMode = .left
         
-        lifesLabel.text = "Lifes: \(player.lifes)"
-        addChild(lifesLabel)
+        livesLabel.text = "Lifes: \(player.lifes)"
+        
+        bombLaunchLabel.fontColor = fontColor
+        bombLaunchLabel.fontSize = fontSize + 10
+        bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV)
+        bombLaunchLabel.verticalAlignmentMode = .bottom
+        bombLaunchLabel.horizontalAlignmentMode = .center
+        
+        bombLaunchLabel.text = "Launch!"
+        
+        addChild(bombLaunchLabel)
+        addChild(livesLabel)
 
         addChild(player)
         
@@ -165,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
             s.physicsBody?.isDynamic = true
             s.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Enemy
-            s.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayerBullet
+            s.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PlayerBullet
             s.physicsBody?.collisionBitMask = GameData.PhysicsCategory.None
             s.physicsBody?.usesPreciseCollisionDetection = true
             s.physicsBody?.affectedByGravity = false
@@ -195,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
         print("BAM")
         player.lifes -= 1
-        lifesLabel.text = "Lifes: \(player.lifes)"
+        livesLabel.text = "Lifes: \(player.lifes)"
         if player.lifes <= 0{
             player.removeFromParent()
             //TODO: end state
@@ -220,13 +232,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
         
         // 2
-        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PLayerBullet != 0) &&
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PlayerBullet != 0) &&
             (secondBody.categoryBitMask & GameData.PhysicsCategory.Enemy != 0) &&
             firstBody.node != nil && secondBody.node != nil) {
             playerBulletCollided(enemy: secondBody.node as! AlienSprite, bullet: firstBody.node as! SKSpriteNode)
         }
         
-        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PLayer != 0) &&
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.Player != 0) &&
             (secondBody.categoryBitMask & GameData.PhysicsCategory.EnemyBullet != 0) &&
             firstBody.node != nil && secondBody.node != nil) {
             enemyBulletCollided(player: firstBody.node as! PlayerSprite, bullet: secondBody.node as! SKSpriteNode )
@@ -268,7 +280,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
                     s.update(dt: dt)
                 }
                 
-                if(s.position.y <= self.playbleRect.minY + halfHeight || s.position.y >= self.playbleRect.maxY - halfHeight) {
+                if(s.position.y <= self.playableRect.minY + halfHeight || s.position.y >= self.playableRect.maxY - halfHeight) {
                     s.reflectY()
                     s.update(dt: dt)
                 }

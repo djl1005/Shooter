@@ -10,6 +10,7 @@
 		3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1711DA1DEF5004F74D7 /* Space.sks */; };
 		3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1721DA1DEF5004F74D7 /* spark.png */; };
 		3F6CE1761DA1E39D004F74D7 /* bombShip.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1751DA1E39D004F74D7 /* bombShip.png */; };
+		3F6CE17A1DA1E402004F74D7 /* BombShipSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6CE1791DA1E402004F74D7 /* BombShipSprite.swift */; };
 		3F7925381D9863AA00107727 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925341D9863AA00107727 /* CGFloat+Extensions.swift */; };
 		3F7925391D9863AA00107727 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925351D9863AA00107727 /* CGPoint+Extensions.swift */; };
 		3F79253A1D9863AA00107727 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925361D9863AA00107727 /* GameData.swift */; };
@@ -36,6 +37,7 @@
 		3F6CE1711DA1DEF5004F74D7 /* Space.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Space.sks; sourceTree = "<group>"; };
 		3F6CE1721DA1DEF5004F74D7 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		3F6CE1751DA1E39D004F74D7 /* bombShip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bombShip.png; sourceTree = "<group>"; };
+		3F6CE1791DA1E402004F74D7 /* BombShipSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BombShipSprite.swift; sourceTree = "<group>"; };
 		3F7925341D9863AA00107727 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		3F7925351D9863AA00107727 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		3F7925361D9863AA00107727 /* GameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				3F79253C1D98696B00107727 /* PlayerSprite.swift */,
 				3FF0BA8E1D99BE2E00A44A38 /* Bullet.swift */,
 				3FF0BA901D99C85600A44A38 /* AlienSprite.swift */,
+				3F6CE1791DA1E402004F74D7 /* BombShipSprite.swift */,
 				3F6CE1711DA1DEF5004F74D7 /* Space.sks */,
 				3F6CE1721DA1DEF5004F74D7 /* spark.png */,
 			);
@@ -244,6 +247,7 @@
 				3FAF85361D945386004E451B /* LevelResults.swift in Sources */,
 				3F79253A1D9863AA00107727 /* GameData.swift in Sources */,
 				3FF0BA911D99C85600A44A38 /* AlienSprite.swift in Sources */,
+				3F6CE17A1DA1E402004F74D7 /* BombShipSprite.swift in Sources */,
 				3F79253B1D9863AA00107727 /* MyUtils.swift in Sources */,
 				3FAF85151D943496004E451B /* GameViewController.swift in Sources */,
 				3FAF85381D94545A004E451B /* LevelFinishScene.swift in Sources */,

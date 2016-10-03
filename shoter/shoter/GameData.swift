@@ -30,6 +30,11 @@ struct GameData{
         static let playerSize: CGSize = CGSize(width: 100, height: 100)
     }
     
+    struct bombShip{
+        static let bombShipColor:SKColor = SKColor.darkGray
+        static let bombShipSize: CGSize = CGSize(width: 100, height: 100)
+    }
+    
     struct image{
         static let startScreenLogo = "alien_top_01"
         static let background = "background"
@@ -45,10 +50,11 @@ struct GameData{
     struct PhysicsCategory{
         static let None : UInt32 = 0
         static let All : UInt32 = UInt32.max
-        static let PLayer : UInt32 = 0b1 // 1
-        static let PLayerBullet : UInt32 = 0b10 //2
+        static let Player : UInt32 = 0b1 // 1
+        static let PlayerBullet : UInt32 = 0b10 //2
         static let Enemy : UInt32 = 0b100 //4
         static let EnemyBullet : UInt32 = 0b1000 // 8
+        static let BombShip: UInt32 = 0b10000 // 16
     }
     
     struct drawOrder {

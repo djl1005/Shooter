@@ -23,7 +23,7 @@ class Bullet{
             
             sprite.zPosition = GameData.drawOrder.playerBullet
             
-            sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PLayerBullet
+            sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PlayerBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Enemy
             
             secene.addChild(sprite)
@@ -50,7 +50,7 @@ class Bullet{
             sprite.zPosition = GameData.drawOrder.enemyBullet
             
             sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.EnemyBullet
-            sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayer
+            sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Player
             
             sprite.size = CGSize(width: sprite.size.width/2, height: sprite.size.height/2)
             
