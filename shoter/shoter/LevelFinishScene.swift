@@ -46,7 +46,7 @@ class LevelFinishScene: SKScene {
     
     // MARK: - Events -
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        sceneManager.loadGameScene(levelNum: results.levelNum + 1, lives: results.lives, eHealth: 10 + results.levelNum)
+        sceneManager.loadGameScene(levelNum: results.levelNum + 2, lives: results.lives, eHealth: 10 + results.levelNum)
         
     }
 }

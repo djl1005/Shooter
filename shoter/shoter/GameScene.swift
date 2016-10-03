@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
-    var enemySpawnRate = 3
+    var enemySpawnRate = 2
     let sceneManager:GameViewController
     var playableRect = CGRect.zero
     var enemyRect = CGRect.zero //area where enemies can spawn
@@ -302,7 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     func unpauseSprites(){
         let unpauseAction = SKAction.sequence([
-            SKAction.wait(forDuration: 2),
+            SKAction.wait(forDuration: 1),
             SKAction.run({self.spritesMoving = true})
         ])
         run(unpauseAction)

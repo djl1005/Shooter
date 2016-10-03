@@ -18,7 +18,7 @@ class BombShipSprite: SKSpriteNode {
     var bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
     
     init(){
-        super.init(texture: SKTexture(imageNamed:"BombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
+        super.init(texture: SKTexture(imageNamed:"bombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
         self.position = CGPoint(x: 200, y: 100)
         self.zRotation = CGFloat(-M_PI * 0.5)
         
@@ -47,7 +47,6 @@ class BombShipSprite: SKSpriteNode {
         //let raidSpeed = CGFloat(15.0)
         let bombApproachSpeed = CGFloat(4.0)
         let raidSpeed = CGFloat(15.0)
-        
         
         // move to the end of screen in 3 seconds, maintaining y position
         let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1500, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
@@ -91,7 +90,9 @@ class BombShipSprite: SKSpriteNode {
             
             self.bullet.position = CGPoint(x:self.position.x,y:self.position.y)
             self.bullet.zRotation = CGFloat(-M_PI * 0.5)
-            self.bullet.size = CGSize(width: self.bullet.size.width/2, height: self.bullet.size.height/2)
+            self.bullet.size = CGSize(width: self.bullet.size.width/1.8, height: self.bullet.size.height/1.8)
+            //self.bullet.color = .cyan
+            //self.bullet.colorBlendFactor = 0.66
             
             // TODO: Make Bullet visible on scene
             self.scene!.addChild(self.bullet)
