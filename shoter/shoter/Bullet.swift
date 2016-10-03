@@ -52,6 +52,11 @@ class Bullet{
             sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.EnemyBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PLayer
             
+            sprite.size = CGSize(width: sprite.size.width/2, height: sprite.size.height/2)
+            
+            sprite.color = .green
+            sprite.colorBlendFactor = 0.75
+            
             secene.addChild(sprite)
             
             // how long until bullet reaches destination?

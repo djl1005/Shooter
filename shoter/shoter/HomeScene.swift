@@ -21,7 +21,7 @@ class HomeScene:SKScene{
     }
     
     required init(coder aDecoder: NSCoder){
-        fatalError("not implmented")
+        fatalError("not implemented")
     }
     
     override func didMove(to view: SKView) {
