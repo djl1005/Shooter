@@ -39,5 +39,34 @@ class BombShipSprite: SKSpriteNode {
         fatalError("ds")
     }
     
-    
+    func approachEnemy(){
+        // create a general lifetime of approach
+        //let bombApproachSpeed = CGFloat(10.0)
+        //let raidSpeed = CGFloat(15.0)
+        let bombApproachSpeed = CGFloat(4.0)
+        let raidSpeed = CGFloat(4.0)
+        
+        
+        // move to the end of screen in 3 seconds, maintaining y position
+        let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1600, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
+        
+        // rotate by 90 degrees
+        let actionRotate = SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 3.0)
+        
+        let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1600, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
+        
+        let actionFlyBack = SKAction.move(to: CGPoint(x: self.position.x, y: self.position.y + 900), duration: TimeInterval(bombApproachSpeed))
+        
+        let actionDone = SKAction.removeFromParent()
+        
+        run(SKAction.sequence([
+            actionApproach,
+            actionRotate,
+            actionFlyUp,
+            actionRotate,
+            actionFlyBack,
+            actionDone
+            ])
+        )
+    }
 }

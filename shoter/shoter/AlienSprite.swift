@@ -37,7 +37,7 @@ class AlienSprite: SKSpriteNode {
     }
     
     func fire(){
-        Bullet(isPlayer: false, spawnPoint: self.position, secene: self.parent as! SKScene)
+        Bullet(isPlayer: false, spawnPoint: self.position, scene: self.parent as! SKScene)
     }
     
     func update(dt:CGFloat) {

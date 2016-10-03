@@ -139,7 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             let location = touch.location(in:self)
             if bombLaunchLabel.contains(location){
                 if bombShip.canLaunch{
-                    addChild(bombShip)
+                    launchBomb()
                     print("BOMBING")
                     bombShip.canLaunch = false
                     
@@ -179,6 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     func launchBomb(){
         addChild(bombShip)
+        bombShip.approachEnemy()
     }
     
     func makeEnemies(){
@@ -212,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func spawnBullet(){
         // only spawn if player is firing
         if player.isFiring{
-             Bullet(isPlayer: true, spawnPoint: player.position, secene: self)
+             Bullet(isPlayer: true, spawnPoint: player.position, scene: self)
         }
         
     }

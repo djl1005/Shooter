@@ -13,7 +13,7 @@ class Bullet{
     
     let sprite: SKSpriteNode
     
-    init(isPlayer:Bool, spawnPoint:CGPoint, secene: SKScene) {
+    init(isPlayer:Bool, spawnPoint:CGPoint, scene: SKScene) {
         
         //is player bullet
         if(isPlayer){
@@ -26,14 +26,14 @@ class Bullet{
             sprite.physicsBody?.categoryBitMask = GameData.PhysicsCategory.PlayerBullet
             sprite.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.Enemy
             
-            secene.addChild(sprite)
+            scene.addChild(sprite)
             
             // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(3.0)
             
             
             // move to the end of screen in 3 seconds, maintaining y position
-            let actionMove = SKAction.move(to: CGPoint(x: secene.size.width - sprite.size.width/2, y: spawnPoint.y), duration: TimeInterval(bulletLifeTime))
+            let actionMove = SKAction.move(to: CGPoint(x: scene.size.width - sprite.size.width/2, y: spawnPoint.y), duration: TimeInterval(bulletLifeTime))
             
             let actionMoveDone = SKAction.removeFromParent()
             
@@ -57,7 +57,7 @@ class Bullet{
             sprite.color = .green
             sprite.colorBlendFactor = 0.75
             
-            secene.addChild(sprite)
+            scene.addChild(sprite)
             
             // how long until bullet reaches destination?
             let bulletLifeTime = CGFloat(4.0)
