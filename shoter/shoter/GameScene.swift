@@ -11,11 +11,8 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
-    
     var enemySpawnRate = 3
-
     let sceneManager:GameViewController
-    
     var playableRect = CGRect.zero
     var enemyRect = CGRect.zero //area where enemies can spawn
     var numEnemies = 0;
@@ -37,12 +34,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var dt: TimeInterval = 0
     var spritesMoving = false
     
-    var fHealth: Int = 10 {
+    var fHealth: Int{
         didSet{
             fHealthLabel.text = "Enemy Health: \(fHealth)"
             
             if(fHealth <= 0){
-                let results = LevelResults(levelNum: levelNum, levelScore: 0, totalScore: 0, msg: "you finished level \(levelNum)")
+                let results = LevelResults(levelNum: levelNum, levelScore: 0, lives: player.lives, msg: "you finished level \(levelNum)")
                     sceneManager.loadLevelFinishScene(results: results)
             }
         }
@@ -50,9 +47,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     //MARK: - Init -
     
-    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, totalScore:Int, sceneManager:GameViewController) {
+    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, lives:Int, eHealth:Int, sceneManager:GameViewController) {
         self.levelNum = levelNum
         self.sceneManager = sceneManager
+        self.fHealth = eHealth
+        player.lives = lives
         super.init(size: size)
         self.scaleMode = scaleMode
     }
@@ -263,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         if player.lives <= 0{
             player.removeFromParent()
             //TODO: end state
-            let results = LevelResults(levelNum: 1, levelScore: 0, totalScore: 0, msg: "Game Over")
+            let results = LevelResults(levelNum: 1, levelScore: 0, lives: 0, msg: "Game Over")
             sceneManager.loadGameOverScene(results: results)
             
         }

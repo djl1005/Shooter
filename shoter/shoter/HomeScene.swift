@@ -70,7 +70,7 @@ class HomeScene:SKScene{
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        sceneManager.loadGameScene(levelNum: 1, totalScore: 0)
+        sceneManager.loadGameScene(levelNum: 1, lives:5 ,eHealth:10)
     }
     
 }
