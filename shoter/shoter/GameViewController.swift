@@ -22,14 +22,30 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setNotifcations()
+        
         skView = self.view as! SKView
         loadHomeScene()
         
         //debugstuff
-        skView.ignoresSiblingOrder = true
+        skView.ignoresSiblingOrder = false
         skView.showsFPS = true
         skView.showsNodeCount = true
         
+    }
+    
+    //MARK: -Notifactions- 
+    
+    func setNotifcations(){
+        NotificationCenter.default.addObserver(self, selector: #selector(didActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    func willResign(){
+        //gameScene?.gameIsPaused = true
+    }
+    
+    func didActive(){
+        gameScene?.gameIsPaused = true
     }
     
     //MARK: -scene managment-

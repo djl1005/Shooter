@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F674C7C1DB400AC0039F549 /* PauseSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F674C7B1DB400AC0039F549 /* PauseSprite.swift */; };
 		3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1711DA1DEF5004F74D7 /* Space.sks */; };
 		3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1721DA1DEF5004F74D7 /* spark.png */; };
 		3F6CE1761DA1E39D004F74D7 /* bombShip.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1751DA1E39D004F74D7 /* bombShip.png */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F674C7B1DB400AC0039F549 /* PauseSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseSprite.swift; sourceTree = "<group>"; };
 		3F6CE1711DA1DEF5004F74D7 /* Space.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Space.sks; sourceTree = "<group>"; };
 		3F6CE1721DA1DEF5004F74D7 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		3F6CE1751DA1E39D004F74D7 /* bombShip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bombShip.png; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				3F6CE1791DA1E402004F74D7 /* BombShipSprite.swift */,
 				3F6CE1711DA1DEF5004F74D7 /* Space.sks */,
 				3F6CE1721DA1DEF5004F74D7 /* spark.png */,
+				3F674C7B1DB400AC0039F549 /* PauseSprite.swift */,
 			);
 			name = Sprite;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F7925381D9863AA00107727 /* CGFloat+Extensions.swift in Sources */,
+				3F674C7C1DB400AC0039F549 /* PauseSprite.swift in Sources */,
 				3FAF85131D943496004E451B /* GameScene.swift in Sources */,
 				3FAF85321D943AE7004E451B /* HomeScene.swift in Sources */,
 				3FF0BA8F1D99BE2E00A44A38 /* Bullet.swift in Sources */,

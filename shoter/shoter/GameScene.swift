@@ -17,6 +17,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var enemyRect = CGRect.zero //area where enemies can spawn
     var numEnemies = 0;
     
+    let pauseNode = PauseSprite()
+    var isFirstUnpause: Bool = false
+    var gameIsPaused:Bool {
+        didSet {
+            gameIsPaused ? pause() : unPause()
+        }
+    }
+    
+    func pause() {
+        run(
+        SKAction.sequence([SKAction.run {
+            self.pauseNode.paused()
+            }, SKAction.run {
+                self.pauseNode.paused()
+                self.physicsWorld.speed = 0.0
+                self.spritesMoving = false
+                self.view?.isPaused = true
+            }])
+        )
+
+    }
+    
+    func unPause() {
+        pauseNode.unPaused()
+        self.view?.isPaused = false
+        physicsWorld.speed = 1.0
+        spritesMoving = true
+        lastUpdateTime = 0
+        
+        
+        if(!isFirstUnpause){
+            run(SKAction.repeatForever(
+                SKAction.sequence([
+                    SKAction.run(spawnBullet),
+                    SKAction.wait(forDuration: 0.3),
+                    ])
+            ))
+            
+            run(SKAction.repeatForever(
+                SKAction.sequence([
+                    SKAction.run(makeEnemies),
+                    SKAction.wait(forDuration: 3),
+                    ])
+            ))
+            
+            isFirstUnpause = true
+        }
+    }
+    
+    
     let livesLabel = SKLabelNode(fontNamed: "Futura")
     let fHealthLabel = SKLabelNode(fontNamed: "Futura")
     
@@ -52,8 +102,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         self.sceneManager = sceneManager
         self.fHealth = eHealth
         player.lives = lives
+        gameIsPaused = true
+        
         super.init(size: size)
         self.scaleMode = scaleMode
+        
+
     }
     
     required init?(coder aDecoder: NSCoder){
@@ -61,25 +115,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func didMove(to view: SKView) {
-        setupUI()
-        //makeEnemies()
-        unpauseSprites()
-        
-        // spawns bullets infinitely
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(spawnBullet),
-                SKAction.wait(forDuration: 0.3),
-                ])
-        ))
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(makeEnemies),
-                SKAction.wait(forDuration: 3),
-                ])
-        ))
+        setupUI()     
     }
+
     
     deinit {
         //TODO: set
@@ -149,10 +187,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         spaceEmitter.position = CGPoint(x:frame.width/2, y: frame.height/2)
         spaceEmitter.zPosition = 5
         addChild(spaceEmitter)
+        
+        addChild(pauseNode.node)
+        
     }
     
     //MARK: -events-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if(gameIsPaused){
+            gameIsPaused = false
+            return
+        } //else {
+            //gameIsPaused = true
+            //return
+        //}
         
         //player movment
         if let touch = touches.first {
@@ -363,8 +412,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        calculateDeltaTime(currentTime: currentTime)
-        moveSprites(dt: CGFloat(dt))
+        if(!gameIsPaused){
+            calculateDeltaTime(currentTime: currentTime)
+            moveSprites(dt: CGFloat(dt))
+        }
     }
     
     }
