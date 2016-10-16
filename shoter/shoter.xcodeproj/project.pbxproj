@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F30D4871DB421B100F63312 /* bombShot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F30D4861DB421B100F63312 /* bombShot.png */; };
 		3F674C7C1DB400AC0039F549 /* PauseSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F674C7B1DB400AC0039F549 /* PauseSprite.swift */; };
 		3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1711DA1DEF5004F74D7 /* Space.sks */; };
 		3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6CE1721DA1DEF5004F74D7 /* spark.png */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F30D4861DB421B100F63312 /* bombShot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bombShot.png; sourceTree = "<group>"; };
 		3F674C7B1DB400AC0039F549 /* PauseSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseSprite.swift; sourceTree = "<group>"; };
 		3F6CE1711DA1DEF5004F74D7 /* Space.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Space.sks; sourceTree = "<group>"; };
 		3F6CE1721DA1DEF5004F74D7 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				3FAF851E1D943496004E451B /* Info.plist */,
 				3F6CE1751DA1E39D004F74D7 /* bombShip.png */,
 				3F9161081D999393007E381E /* bullet.png */,
+				3F30D4861DB421B100F63312 /* bombShot.png */,
 			);
 			path = shoter;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				3FAF85181D943496004E451B /* Main.storyboard in Resources */,
 				3F9161091D999393007E381E /* bullet.png in Resources */,
 				3F6CE1761DA1E39D004F74D7 /* bombShip.png in Resources */,
+				3F30D4871DB421B100F63312 /* bombShot.png in Resources */,
 				3FAF850F1D943496004E451B /* GameScene.sks in Resources */,
 				3FAF851A1D943496004E451B /* Assets.xcassets in Resources */,
 				3FAF851D1D943496004E451B /* LaunchScreen.storyboard in Resources */,

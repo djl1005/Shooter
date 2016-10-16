@@ -14,7 +14,7 @@ class BombShipSprite: SKSpriteNode {
     
     var canLaunch = true
     var isFiring = false
-    var health = 10
+    var health = 20
     var bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
     
     init(){
@@ -86,11 +86,11 @@ class BombShipSprite: SKSpriteNode {
     func fireAction() -> SKAction{
         return SKAction.run{
             
-            self.bullet = SKSpriteNode(imageNamed:"bullet.png")
+            self.bullet = SKSpriteNode(imageNamed:"bombShot.png")
             
             self.bullet.position = CGPoint(x:self.position.x,y:self.position.y)
             self.bullet.zRotation = CGFloat(-M_PI * 0.5)
-            self.bullet.size = CGSize(width: self.bullet.size.width/1.8, height: self.bullet.size.height/1.8)
+            self.bullet.size = CGSize(width: self.bullet.size.width * 1.5, height: self.bullet.size.height * 1.5)
             self.bullet.zPosition = GameData.drawOrder.playerBullet
             //self.bullet.color = .cyan
             //self.bullet.colorBlendFactor = 0.66

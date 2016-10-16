@@ -97,10 +97,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     //MARK: - Init -
     
-    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, lives:Int, eHealth:Int, sceneManager:GameViewController) {
+    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, lives:Int, frHealth:Int, sceneManager:GameViewController) {
         self.levelNum = levelNum
         self.sceneManager = sceneManager
-        self.fHealth = eHealth
+        self.fHealth = frHealth
         player.lives = lives
         gameIsPaused = true
         
@@ -118,7 +118,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         setupUI()     
     }
 
-    
     deinit {
         //TODO: set
     }
