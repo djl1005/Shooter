@@ -63,6 +63,7 @@ struct GameData{
         static let playerBullet :CGFloat = 1
         static let enemy :CGFloat = 2
         static let enemyBullet :CGFloat = 3
+        static let bombBullet :CGFloat = 4
         static let player :CGFloat = 100
         static let hud :CGFloat = 105
         

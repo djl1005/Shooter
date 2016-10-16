@@ -50,12 +50,12 @@ class BombShipSprite: SKSpriteNode {
         let raidSpeed = CGFloat(15.0)
         
         // move to the end of screen in 3 seconds, maintaining y position
-        let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1625, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
+        let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1525, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
         
         // rotate by 90 degrees
         let actionRotate = SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 2.0)
         
-        let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1625, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
+        let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1525, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
         
         let actionFlyBack = SKAction.move(to: CGPoint(x: self.position.x - 75, y: self.position.y + 900), duration: TimeInterval(bombApproachSpeed))
         
@@ -97,7 +97,7 @@ class BombShipSprite: SKSpriteNode {
             self.bullet.position = CGPoint(x:self.position.x,y:self.position.y)
             self.bullet.zRotation = CGFloat(-M_PI * 0.5)
             self.bullet.size = CGSize(width: self.bullet.size.width * 1.5, height: self.bullet.size.height * 1.5)
-            self.bullet.zPosition = GameData.drawOrder.playerBullet
+            self.bullet.zPosition = GameData.drawOrder.bombBullet
             //self.bullet.color = .cyan
             //self.bullet.colorBlendFactor = 0.66
             
@@ -109,7 +109,7 @@ class BombShipSprite: SKSpriteNode {
             
             
             // move to the end of screen in 3 seconds, maintaining y position
-            let fire = SKAction.move(to: CGPoint(x: 2000, y: self.position.y), duration: TimeInterval(bulletLifeTime))
+            let fire = SKAction.move(to: CGPoint(x: 1900, y: self.position.y), duration: TimeInterval(bulletLifeTime))
             
             let damage = SKAction.run {
                 let s = self.scene as! GameScene

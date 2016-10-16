@@ -141,6 +141,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         addChild(background)
         
+        // let's try adding visual representation
+        let freighter = SKSpriteNode(texture:SKTexture(imageNamed:"freighter.png"), size: CGSize(width: 750, height: 1350))
+        
+        freighter.position = CGPoint(x: 2000, y: size.height/2)
+        
+        freighter.zPosition = GameData.drawOrder.enemy
+        
+        addChild(freighter)
+        
         livesLabel.fontColor = fontColor
         livesLabel.fontSize = fontSize
         livesLabel.position = CGPoint(x: marginH, y: playableRect.maxY - marginV)
