@@ -3,6 +3,7 @@ class LevelFinishScene: SKScene {
     // MARK: - ivars -
     let sceneManager:GameViewController
     let results:LevelResults
+    var progression: Int = 8
     let button:SKLabelNode = SKLabelNode(fontNamed: GameData.font.mainFont)
     
     // MARK: - Initialization -
@@ -46,7 +47,7 @@ class LevelFinishScene: SKScene {
     
     // MARK: - Events -
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        sceneManager.loadGameScene(levelNum: results.levelNum + 2, lives: results.lives, eHealth: 10 + results.levelNum)
+        sceneManager.loadGameScene(levelNum: results.levelNum + 2, lives: results.lives, frHealth: 20 + self.progression)
         
     }
 }

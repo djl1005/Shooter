@@ -15,11 +15,12 @@ class BombShipSprite: SKSpriteNode {
     var canLaunch = true
     var isFiring = false
     var health = 20
+    // var firedShot: Int = 0
     var bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
     
     init(){
         super.init(texture: SKTexture(imageNamed:"bombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
-        self.position = CGPoint(x: 200, y: 100)
+        self.position = CGPoint(x: 0, y: 100)
         self.zRotation = CGFloat(-M_PI * 0.5)
         
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
@@ -49,33 +50,38 @@ class BombShipSprite: SKSpriteNode {
         let raidSpeed = CGFloat(15.0)
         
         // move to the end of screen in 3 seconds, maintaining y position
-        let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1500, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
+        let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1625, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
         
         // rotate by 90 degrees
         let actionRotate = SKAction.rotate(byAngle: CGFloat(M_PI_2), duration: 2.0)
         
-        let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1500, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
+        let actionFlyUp = SKAction.move(to: CGPoint(x: self.position.x + 1625, y: self.position.y + 900), duration: TimeInterval(raidSpeed))
         
-        let actionFlyBack = SKAction.move(to: CGPoint(x: self.position.x, y: self.position.y + 900), duration: TimeInterval(bombApproachSpeed))
+        let actionFlyBack = SKAction.move(to: CGPoint(x: self.position.x - 75, y: self.position.y + 900), duration: TimeInterval(bombApproachSpeed))
         
-        let actionDone = SKAction.removeFromParent()
+        let actionDone = SKAction.sequence([
+            SKAction.removeFromParent(),
+            resetLaunch()
+            
+        ])
         
         // group two actions together
         var fireAndMove = Array<SKAction>()
         
         fireAndMove.append(actionFlyUp)
         fireAndMove.append(spawnBullet())
+        //fireAndMove.append(checkStop())
         let FAM = SKAction.group(fireAndMove)
         
         run(SKAction.sequence([
             actionApproach,
             actionRotate,
             FAM,
-            fireStop(),
+            //fireStop(),
             actionRotate,
             actionFlyBack,
             actionDone
-            ])
+            ]), withKey:"Hi"
         )
         
     }
@@ -115,10 +121,21 @@ class BombShipSprite: SKSpriteNode {
             let sequence = SKAction.sequence([fire, damage ,done])
             //print ("FIRING")
             self.bullet.run(sequence, withKey: "Firing")
+            
         }
     }
     func spawnBullet() -> SKAction{
-        return SKAction.repeatForever(SKAction.sequence([fireAction(), SKAction.wait(forDuration: 1.0)]))
+        let seq = SKAction.sequence([fireAction(), SKAction.wait(forDuration: 1.2)])
+        return SKAction.repeat(seq, count: 12)
+        
+    }
+    
+    func resetLaunch() -> SKAction{
+        return SKAction.run{
+            self.canLaunch = true
+            self.position = CGPoint(x: 0, y: 100)
+            self.zRotation = CGFloat(-M_PI * 0.5)
+        }
     }
     // CRASHES!
     //func spawnBullet() -> SKAction{
@@ -132,9 +149,10 @@ class BombShipSprite: SKSpriteNode {
     //    }
     //}
     
-    func fireStop() -> SKAction{
-        return SKAction.run{
-            self.bullet.removeAction(forKey: "Firing")
-        }
-    }
+    //func fireStop() -> SKAction{
+    //   return SKAction.run{
+    //        self.removeAction(forKey: "Firing")
+    //        self.bullet.removeAction(forKey:"Firing")
+    //    }
+    //}
 }
