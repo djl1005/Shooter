@@ -14,21 +14,26 @@ struct GameData{
     }
     static let maxLevel = 3
     struct font{
-        static let mainFont = "Chalkduster"
+        static let mainFont = "Optima"
     }
     
     struct hud{
-        static let backgroundColor = SKColor.red
         static let fontSize = CGFloat(64.0)
         static let fontColorWhite = SKColor(red: 0.90, green: 0.90, blue: 0.90, alpha: 1.0)
         static let marginV = CGFloat(12.0)
         static let marginH = CGFloat(12.0)
-        static let shipMaxSpeedPerSecond = CGFloat(800.0)
+        
     }
     
     struct player {
         static let playerColor:SKColor = SKColor.brown
         static let playerSize: CGSize = CGSize(width: 100, height: 100)
+        static let shipMaxSpeedPerSecond = CGFloat(400.0)
+    }
+    
+    struct bombShip{
+        static let bombShipColor:SKColor = SKColor.darkGray
+        static let bombShipSize: CGSize = CGSize(width: 100, height: 100)
     }
     
     struct image{
@@ -40,7 +45,27 @@ struct GameData{
     }
     
     struct scene {
-        static let backgroundColor = SKColor(red: 0.878, green: 0.69, blue: 1.0, alpha: 1.0)
+        static let backgroundColor = SKColor(red: 0.0, green: 0.69, blue: 1.0, alpha: 1.0)
+    }
+    
+    struct PhysicsCategory{
+        static let None : UInt32 = 0
+        static let All : UInt32 = UInt32.max
+        static let Player : UInt32 = 0b1 // 1
+        static let PlayerBullet : UInt32 = 0b10 //2
+        static let Enemy : UInt32 = 0b100 //4
+        static let EnemyBullet : UInt32 = 0b1000 // 8
+        static let BombShip: UInt32 = 0b10000 // 16
+    }
+    
+    struct drawOrder {
+        static let bg :CGFloat = 0
+        static let playerBullet :CGFloat = 1
+        static let enemy :CGFloat = 2
+        static let enemyBullet :CGFloat = 3
+        static let player :CGFloat = 100
+        static let hud :CGFloat = 105
+        
     }
 }
 

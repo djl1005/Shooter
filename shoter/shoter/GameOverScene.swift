@@ -21,30 +21,30 @@ class GameOverScene: SKScene {
     override func didMove(to view: SKView){
         backgroundColor = GameData.scene.backgroundColor
         
+        let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "bg")), size: size)
+        
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        background.zPosition = GameData.drawOrder.bg
+        
+        addChild(background)
+        
         let label = SKLabelNode(fontNamed: GameData.font.mainFont)
         label.text = "Game Over"
         label.fontSize = 100
         label.position = CGPoint(x:size.width/2, y:size.height/2 + 300)
         addChild(label)
         
-        let label2 = SKLabelNode(fontNamed: GameData.font.mainFont)
-        label2.text = "You beat level \(results.levelNum)!"
-        label2.fontSize = 70
-        label2.position = CGPoint(x:size.width/2, y:size.height/2 + 100)
-        addChild(label2)
-        
-        let label3 = SKLabelNode(fontNamed: GameData.font.mainFont)
-        label3.text = "You got \(results.totalScore) total diamonds!"
-        label3.fontSize = 70
-        label3.position = CGPoint(x:size.width/2, y:size.height/2 - 100)
-        addChild(label3)
+        label.zPosition = GameData.drawOrder.hud
         
         let label4 = SKLabelNode(fontNamed: GameData.font.mainFont)
         label4.text = "Tap to play again"
-        label4.fontColor = UIColor.red
+        label4.fontColor = UIColor.white
         label4.fontSize = 70
         label4.position = CGPoint(x:size.width/2, y:size.height/2 - 400)
         addChild(label4)
+        
+        label4.zPosition = GameData.drawOrder.hud
         
     }
     

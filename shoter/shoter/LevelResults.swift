@@ -10,14 +10,12 @@ import Foundation
 
 class LevelResults  {
     let levelNum:Int
-    let levelScore:Int
-    let totalScore:Int
+    let lives:Int
     let msg:String
     
-    init(levelNum:Int, levelScore:Int , totalScore:Int, msg:String) {
+    init(levelNum:Int, levelScore:Int , lives:Int, msg:String) {
         self.levelNum = levelNum
-        self.levelScore = levelScore
-        self.totalScore = totalScore
+        self.lives = lives
         self.msg = msg
     }
 }

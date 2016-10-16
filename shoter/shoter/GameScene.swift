@@ -9,49 +9,76 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate  {
     var levelNum:Int
-    var levelScore:Int = 0 {
-        didSet{
-            scoreLabel.text = "Score: \(levelScore)"
-        }
-    }
-    var totalScore:Int
+    var enemySpawnRate = 2
     let sceneManager:GameViewController
+    var playableRect = CGRect.zero
+    var enemyRect = CGRect.zero //area where enemies can spawn
+    var numEnemies = 0;
     
-    var tapCount = 0
+    let livesLabel = SKLabelNode(fontNamed: "Futura")
+    let fHealthLabel = SKLabelNode(fontNamed: "Futura")
     
-    var playbleRect = CGRect.zero
-    var totalSprites = 0
+    let bombLaunchLabel = SKLabelNode(fontNamed: "Futura")
     
-    let levelLabel = SKLabelNode(fontNamed: "Futura")
-    let scoreLabel = SKLabelNode(fontNamed: "Futura")
-    let otherLabel = SKLabelNode(fontNamed: "Futura")
+    let spaceEmitter = SKEmitterNode(fileNamed: "Space")!
     
-    let player = PlayerSprite();
+    var tapY : CGFloat?
+    
+    
+    let player = PlayerSprite()
+    let bombShip = BombShipSprite()
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     var spritesMoving = false
     
+    var fHealth: Int{
+        didSet{
+            fHealthLabel.text = "Enemy Health: \(fHealth)"
+            
+            if(fHealth <= 0){
+                let results = LevelResults(levelNum: levelNum, levelScore: 0, lives: player.lives, msg: "you finished level \(levelNum)")
+                    sceneManager.loadLevelFinishScene(results: results)
+            }
+        }
+    }
+    
     //MARK: - Init -
     
-    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, totalScore:Int, sceneManager:GameViewController) {
+    init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, lives:Int, eHealth:Int, sceneManager:GameViewController) {
         self.levelNum = levelNum
-        self.totalScore = totalScore
         self.sceneManager = sceneManager
+        self.fHealth = eHealth
+        player.lives = lives
         super.init(size: size)
         self.scaleMode = scaleMode
     }
     
     required init?(coder aDecoder: NSCoder){
-        fatalError("not implmented")
+        fatalError("not implemented")
     }
     
     override func didMove(to view: SKView) {
         setupUI()
-        makeSprites(howMany: 10)
+        //makeEnemies()
         unpauseSprites()
+        
+        // spawns bullets infinitely
+        run(SKAction.repeatForever(
+            SKAction.sequence([
+                SKAction.run(spawnBullet),
+                SKAction.wait(forDuration: 0.3),
+                ])
+        ))
+        
+        run(SKAction.repeatForever(
+            SKAction.sequence([
+                SKAction.run(makeEnemies),
+                SKAction.wait(forDuration: 3),
+                ])
+        ))
     }
     
     deinit {
@@ -59,112 +86,226 @@ class GameScene: SKScene {
     }
     
     private func setupUI(){
-        playbleRect = getPlayableRectPhoneLandscape(size: size)
+        playableRect = getPlayableRectPhoneLandscape(size: size)
+        enemyRect = CGRect(x: playableRect.width/2, y: 0, width: playableRect.width/2, height: playableRect.height)
         let fontSize = GameData.hud.fontSize
         let fontColor = GameData.hud.fontColorWhite
         let marginH = GameData.hud.marginH
         let marginV = GameData.hud.marginV
         
-        backgroundColor = GameData.hud.backgroundColor
+        //backgroundColor = UIColor.black
         
-        levelLabel.fontColor = fontColor
-        levelLabel.fontSize = fontSize
-        levelLabel.position = CGPoint(x: marginH, y: playbleRect.maxY - marginV)
-        levelLabel.verticalAlignmentMode = .top
-        levelLabel.horizontalAlignmentMode = .left
         
-        levelLabel.text = "Level: \(levelNum)"
-        addChild(levelLabel)
+        let background = SKSpriteNode(texture: SKTexture(image:#imageLiteral(resourceName: "gameBg")), size: size)
         
-        scoreLabel.fontColor = fontColor
-        scoreLabel.fontSize = fontSize
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
         
-        scoreLabel.verticalAlignmentMode = .top
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.text = "Score: 000"
-        let scoreLabelWidth = scoreLabel.frame.size.width
+        background.zPosition = GameData.drawOrder.bg
         
-        scoreLabel.text = "Score: \(levelScore)"
+        addChild(background)
         
-        scoreLabel.position = CGPoint(x: playbleRect.maxX - scoreLabelWidth - marginH, y: playbleRect.maxY - marginV)
-        addChild(scoreLabel)
+        livesLabel.fontColor = fontColor
+        livesLabel.fontSize = fontSize
+        livesLabel.position = CGPoint(x: marginH, y: playableRect.maxY - marginV)
+        livesLabel.verticalAlignmentMode = .top
+        livesLabel.horizontalAlignmentMode = .left
         
-        otherLabel.fontColor = fontColor
-        otherLabel.fontSize = fontSize
-        otherLabel.position = CGPoint(x: marginH, y: playbleRect.minY + marginV)
-        otherLabel.verticalAlignmentMode = .bottom
-        otherLabel.horizontalAlignmentMode = .left
-        otherLabel.text = "Num Sprites: 0"
-        addChild(otherLabel)
+        livesLabel.text = "Lives: \(player.lives)"
+        livesLabel.zPosition = GameData.drawOrder.hud
         
-        player.position = CGPoint(x: 300, y: 540)
-        player.zRotation = CGFloat(-M_PI * 0.5)
+        
+        fHealthLabel.fontColor = fontColor
+        fHealthLabel.fontSize = fontSize
+        fHealthLabel.position = CGPoint(x: marginH + 1300, y: playableRect.maxY - marginV)
+        fHealthLabel.verticalAlignmentMode = .top
+        fHealthLabel.horizontalAlignmentMode = .left
+        fHealthLabel.text = "Enemy Health: \(fHealth)"
+        fHealthLabel.zPosition = GameData.drawOrder.hud
+        
+        livesLabel.text = "Lives: \(player.lives)"
+        livesLabel.zPosition = GameData.drawOrder.hud
+        
+        
+        bombLaunchLabel.fontColor = fontColor
+        bombLaunchLabel.fontSize = fontSize + 10
+        bombLaunchLabel.position = CGPoint(x: marginH + 1600, y: playableRect.minY + marginV + 100)
+        bombLaunchLabel.verticalAlignmentMode = .bottom
+        bombLaunchLabel.horizontalAlignmentMode = .center
+        
+        bombLaunchLabel.name = "Bomb"
+        bombLaunchLabel.text = "Launch!"
+        //bombLaunchLabel.isUserInteractionEnabled = true
+        bombLaunchLabel.zPosition = GameData.drawOrder.hud
+        
+        addChild(fHealthLabel)
+        addChild(bombLaunchLabel)
+        addChild(livesLabel)
+
         addChild(player)
+        
+        // checks to see if two objects collide
+        physicsWorld.contactDelegate = self
+        
+        spaceEmitter.position = CGPoint(x:frame.width/2, y: frame.height/2)
+        spaceEmitter.zPosition = 5
+        addChild(spaceEmitter)
     }
     
     //MARK: -events-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        tapCount += 1
         
-        if tapCount < 3 {
+        //player movment
+        if let touch = touches.first {
+            tapY = touch.location(in: self).y
+            player.isFiring = true
             
-            //player movment
+        }
         
-            if let touch = touches.first {
-                 player.position.y = touch.location(in: self).y
-                 player.isFiring = true
+        // launches the ship
+        for touch: AnyObject in touches{
+            let location = touch.location(in:self)
+            if bombLaunchLabel.contains(location){
+                if bombShip.canLaunch{
+                    launchBomb()
+                    print("BOMBING")
+                    bombShip.canLaunch = false
+                    
+                    
+                }
             }
-            
-            return
         }
         
-        if levelNum < GameData.maxLevel{
-            totalScore += levelScore
-            let results = LevelResults(levelNum: levelNum, levelScore: levelScore, totalScore: totalScore, msg: "you finished level \(levelNum)")
-            sceneManager.loadLevelFinishScene(results: results)
-        } else {
-            totalScore += levelScore
-            let results = LevelResults(levelNum: levelNum, levelScore: levelScore, totalScore: totalScore, msg: "you finished level \(levelNum)")
-           sceneManager.loadGameOverScene(results: results)
-        }
+        
+            
+        return
+        
+        
+//        if levelNum < GameData.maxLevel{
+//            totalScore += levelScore
+//            let results = LevelResults(levelNum: levelNum, levelScore: levelScore, totalScore: totalScore, msg: "you finished level \(levelNum)")
+//            sceneManager.loadLevelFinishScene(results: results)
+//        } else {
+//            totalScore += levelScore
+//            let results = LevelResults(levelNum: levelNum, levelScore: levelScore, totalScore: totalScore, msg: "you finished level \(levelNum)")
+//           sceneManager.loadGameOverScene(results: results)
+//        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            player.position.y = touch.location(in: self).y
+            tapY = touch.location(in: self).y
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            player.position.y = touch.location(in: self).y
+        if touches.first != nil {
+            tapY = nil
             player.isFiring = false
         }
     }
     
-    func makeSprites(howMany:Int){
-        totalSprites += howMany
-        otherLabel.text = "Num Sprites: \(totalSprites)"
+    func launchBomb(){
+        addChild(bombShip)
+        bombShip.approachEnemy()
+    }
+    
+    func makeEnemies(){
         
-        var s:DiamondSprite
+        if(numEnemies + enemySpawnRate > 10 ){ return }
         
-        for _ in 0...howMany-1{
-            s = DiamondSprite(size: CGSize(width: 60, height: 100), lineWidth: 10, strokeColor: SKColor.green, fillColor: SKColor.magenta)
-            s.name = "diamond"
-            s.position = randomCGPointInRect(playbleRect, margin: 300)
-            s.fwd = CGPoint.randomUnitVector()
+        numEnemies += enemySpawnRate
+        
+        var s:AlienSprite
+        
+        for _ in 0...enemySpawnRate-1{
+            s = AlienSprite()
+            s.name = "Enemy"
+            
+            s.position = randomCGPointInRect(enemyRect, margin: 50)
+            
             addChild(s)
+            
+            // check physics body of sprite (Hopefully will collide with bullet)
+            s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
+            s.physicsBody?.isDynamic = true
+            s.physicsBody?.categoryBitMask = GameData.PhysicsCategory.Enemy
+            s.physicsBody?.contactTestBitMask = GameData.PhysicsCategory.PlayerBullet
+            s.physicsBody?.collisionBitMask = GameData.PhysicsCategory.None
+            s.physicsBody?.usesPreciseCollisionDetection = true
+            s.physicsBody?.affectedByGravity = false
         }
     }
     
+    // spawns bullets into game
+    func spawnBullet(){
+        // only spawn if player is firing
+        if player.isFiring{
+             Bullet(isPlayer: true, spawnPoint: player.position, scene: self)
+        }
+        
+    }
+    
+    // create a handler to check for bullet collision
+    func playerBulletCollided(enemy:AlienSprite,bullet:SKSpriteNode){
+        print("BOOM")
+        enemy.health -= 1
+        if enemy.health <= 0{
+        enemy.removeFromParent()
+            numEnemies -= 1;
+        }
+        bullet.removeFromParent()
+    }
+    
+    func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
+        print("BAM")
+        player.lives -= 1
+        livesLabel.text = "Lifes: \(player.lives)"
+        if player.lives <= 0{
+            player.removeFromParent()
+            //TODO: end state
+            let results = LevelResults(levelNum: 1, levelScore: 0, lives: 0, msg: "Game Over")
+            sceneManager.loadGameOverScene(results: results)
+            
+        }
+        bullet.removeFromParent()
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // 1
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA // player || playerBullet
+            secondBody = contact.bodyB // enemy || EnemyBullet
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // 2
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.PlayerBullet != 0) &&
+            (secondBody.categoryBitMask & GameData.PhysicsCategory.Enemy != 0) &&
+            firstBody.node != nil && secondBody.node != nil) {
+            playerBulletCollided(enemy: secondBody.node as! AlienSprite, bullet: firstBody.node as! SKSpriteNode)
+        }
+        
+        if ((firstBody.categoryBitMask & GameData.PhysicsCategory.Player != 0) &&
+            (secondBody.categoryBitMask & GameData.PhysicsCategory.EnemyBullet != 0) &&
+            firstBody.node != nil && secondBody.node != nil) {
+            enemyBulletCollided(player: firstBody.node as! PlayerSprite, bullet: secondBody.node as! SKSpriteNode )
+        }
+        
+    }
+
     //MARK: -Game Loop-
     
     func unpauseSprites(){
-        let unpsuseAction = SKAction.sequence([
-            SKAction.wait(forDuration: 2),
+        let unpauseAction = SKAction.sequence([
+            SKAction.wait(forDuration: 1),
             SKAction.run({self.spritesMoving = true})
         ])
-        run(unpsuseAction)
+        run(unpauseAction)
     }
     
     func calculateDeltaTime(currentTime: TimeInterval){
@@ -178,9 +319,31 @@ class GameScene: SKScene {
     }
     
     func moveSprites(dt: CGFloat){
+        
+        if let y = tapY {
+            
+            let maxMove = GameData.player.shipMaxSpeedPerSecond * dt
+            let close = abs(y - player.position.y) <= maxMove
+            
+            if(close){
+                player.position.y = y
+            } else {
+                
+                if(y > player.position.y){
+                    player.position.y += maxMove
+                } else {
+                    player.position.y -= maxMove
+                }
+                
+            }
+            
+            
+            
+        }
+        
         if spritesMoving{
-            enumerateChildNodes(withName: "diamond", using: {node, stop in
-                let s = node as! DiamondSprite
+            enumerateChildNodes(withName: "Enemy", using: {node, stop in
+                let s = node as! AlienSprite
                 let halfWidth = s.frame.width/2
                 let halfHeight = s.frame.height/2
                 
@@ -189,13 +352,11 @@ class GameScene: SKScene {
                 if(s.position.x <= halfWidth || s.position.x >= self.size.width - halfWidth){
                     s.reflectX()
                     s.update(dt: dt)
-                    self.levelScore += 1
                 }
                 
-                if(s.position.y <= self.playbleRect.minY + halfHeight || s.position.y >= self.playbleRect.maxY - halfHeight) {
+                if(s.position.y <= self.playableRect.minY + halfHeight || s.position.y >= self.playableRect.maxY - halfHeight) {
                     s.reflectY()
                     s.update(dt: dt)
-                    self.levelScore += 1
                 }
             })
         }
