@@ -25,6 +25,9 @@
 		3F79253B1D9863AA00107727 /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7925371D9863AA00107727 /* MyUtils.swift */; };
 		3F79253D1D98696B00107727 /* PlayerSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F79253C1D98696B00107727 /* PlayerSprite.swift */; };
 		3F9161091D999393007E381E /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9161081D999393007E381E /* bullet.png */; };
+		3F965A821DB5881A008D1FCC /* Icon-App-40x40@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F965A7F1DB5881A008D1FCC /* Icon-App-40x40@1x.png */; };
+		3F965A831DB5881A008D1FCC /* Icon-App-40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F965A801DB5881A008D1FCC /* Icon-App-40x40@2x.png */; };
+		3F965A841DB5881A008D1FCC /* Icon-App-40x40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F965A811DB5881A008D1FCC /* Icon-App-40x40@3x.png */; };
 		3FAF850D1D943495004E451B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF850C1D943495004E451B /* AppDelegate.swift */; };
 		3FAF850F1D943496004E451B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3FAF850E1D943496004E451B /* GameScene.sks */; };
 		3FAF85111D943496004E451B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3FAF85101D943496004E451B /* Actions.sks */; };
@@ -60,6 +63,9 @@
 		3F7925371D9863AA00107727 /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
 		3F79253C1D98696B00107727 /* PlayerSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSprite.swift; sourceTree = "<group>"; };
 		3F9161081D999393007E381E /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
+		3F965A7F1DB5881A008D1FCC /* Icon-App-40x40@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-40x40@1x.png"; sourceTree = "<group>"; };
+		3F965A801DB5881A008D1FCC /* Icon-App-40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-40x40@2x.png"; sourceTree = "<group>"; };
+		3F965A811DB5881A008D1FCC /* Icon-App-40x40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-40x40@3x.png"; sourceTree = "<group>"; };
 		3FAF85091D943495004E451B /* shoter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shoter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FAF850C1D943495004E451B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3FAF850E1D943496004E451B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -93,6 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				3F197B0E1DB577B400FE39E0 /* bgm.mp3 */,
+				3F965A7F1DB5881A008D1FCC /* Icon-App-40x40@1x.png */,
+				3F965A801DB5881A008D1FCC /* Icon-App-40x40@2x.png */,
+				3F965A811DB5881A008D1FCC /* Icon-App-40x40@3x.png */,
 				3FAF850B1D943495004E451B /* shoter */,
 				3FAF850A1D943495004E451B /* Products */,
 			);
@@ -217,12 +226,12 @@
 				TargetAttributes = {
 					3FAF85081D943495004E451B = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 3FRQ3MJ5Y9;
+						DevelopmentTeam = JMEUQLVKTY;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 3FAF85041D943495004E451B /* Build configuration list for PBXProject "shoter" */;
+			buildConfigurationList = 3FAF85041D943495004E451B /* Build configuration list for PBXProject "StarRaid" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -250,6 +259,8 @@
 				3F30F5321DB5452F000190B5 /* pause.png in Resources */,
 				3F9161091D999393007E381E /* bullet.png in Resources */,
 				3F197B0F1DB577B400FE39E0 /* bgm.mp3 in Resources */,
+				3F965A821DB5881A008D1FCC /* Icon-App-40x40@1x.png in Resources */,
+				3F965A831DB5881A008D1FCC /* Icon-App-40x40@2x.png in Resources */,
 				3F6CE1761DA1E39D004F74D7 /* bombShip.png in Resources */,
 				3F30D4891DB42C7F00F63312 /* freighter.png in Resources */,
 				3F30D4871DB421B100F63312 /* bombShot.png in Resources */,
@@ -258,6 +269,7 @@
 				3FAF851D1D943496004E451B /* LaunchScreen.storyboard in Resources */,
 				3F30F5301DB53BF8000190B5 /* Damage.sks in Resources */,
 				3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */,
+				3F965A841DB5881A008D1FCC /* Icon-App-40x40@3x.png in Resources */,
 				3F197B0D1DB569FC00FE39E0 /* PlayerDamage.sks in Resources */,
 				3FAF85111D943496004E451B /* Actions.sks in Resources */,
 				3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */,
@@ -409,10 +421,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3FRQ3MJ5Y9;
+				DEVELOPMENT_TEAM = JMEUQLVKTY;
 				INFOPLIST_FILE = shoter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.djl1005.shoter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swc1098.shoter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -423,10 +435,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3FRQ3MJ5Y9;
+				DEVELOPMENT_TEAM = JMEUQLVKTY;
 				INFOPLIST_FILE = shoter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.djl1005.shoter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swc1098.shoter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -436,7 +448,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3FAF85041D943495004E451B /* Build configuration list for PBXProject "shoter" */ = {
+		3FAF85041D943495004E451B /* Build configuration list for PBXProject "StarRaid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3FAF851F1D943496004E451B /* Debug */,

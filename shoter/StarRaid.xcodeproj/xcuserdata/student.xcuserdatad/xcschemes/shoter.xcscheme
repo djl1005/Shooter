@@ -17,7 +17,7 @@
                BlueprintIdentifier = "3FAF85081D943495004E451B"
                BuildableName = "shoter.app"
                BlueprintName = "shoter"
-               ReferencedContainer = "container:shoter.xcodeproj">
+               ReferencedContainer = "container:StarRaid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "3FAF85081D943495004E451B"
             BuildableName = "shoter.app"
             BlueprintName = "shoter"
-            ReferencedContainer = "container:shoter.xcodeproj">
+            ReferencedContainer = "container:StarRaid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "3FAF85081D943495004E451B"
             BuildableName = "shoter.app"
             BlueprintName = "shoter"
-            ReferencedContainer = "container:shoter.xcodeproj">
+            ReferencedContainer = "container:StarRaid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "3FAF85081D943495004E451B"
             BuildableName = "shoter.app"
             BlueprintName = "shoter"
-            ReferencedContainer = "container:shoter.xcodeproj">
+            ReferencedContainer = "container:StarRaid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
