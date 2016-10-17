@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             gameIsPaused ? pause() : unPause()
         }
     }
+    var pauseButton: SKNode! = nil
     
     func pause() {
         run(
@@ -162,7 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         fHealthLabel.fontColor = fontColor
         fHealthLabel.fontSize = fontSize
-        fHealthLabel.position = CGPoint(x: marginH + 1300, y: playableRect.maxY - marginV)
+        fHealthLabel.position = CGPoint(x: marginH + 1150, y: playableRect.maxY - marginV)
         fHealthLabel.verticalAlignmentMode = .top
         fHealthLabel.horizontalAlignmentMode = .left
         fHealthLabel.text = "Enemy Health: \(fHealth)"
@@ -189,6 +190,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 
         addChild(player)
         
+        // set up buttons in the scene
+        // PauseButton
+        pauseButton = SKSpriteNode(imageNamed: "pause.png")
+        pauseButton.position = CGPoint(x: marginH + 1800, y: playableRect.maxY - marginV - 80)
+        pauseButton.zPosition = GameData.drawOrder.hud
+        addChild(pauseButton)
+        
+        
         // checks to see if two objects collide
         physicsWorld.contactDelegate = self
         
@@ -203,10 +212,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     //MARK: -events-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if(gameIsPaused){
-            gameIsPaused = false
-            return
-        } //else {
+        //if(gameIsPaused){
+        //    gameIsPaused = false
+        //    return
+        //} //else {
             //gameIsPaused = true
             //return
         //}
@@ -228,6 +237,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
                     bombShip.canLaunch = false
                     
                     
+                }
+            }
+            
+            if pauseButton.contains(location){
+                if(gameIsPaused){
+                    gameIsPaused = false;
+                } else{
+                    gameIsPaused = true;
                 }
             }
         }
