@@ -14,6 +14,8 @@ class Bullet{
     let sprite: SKSpriteNode
     //var shotSpeed:Double = 0.2
     
+    
+    // MARK: This is bloated, but fires the bullet in a direction. Just declaring the class will serve to act. 
     init(isPlayer:Bool, spawnPoint:CGPoint, scene: SKScene) {
         //is player bullet
         if(isPlayer){

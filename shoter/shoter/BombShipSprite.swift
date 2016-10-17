@@ -46,6 +46,7 @@ class BombShipSprite: SKSpriteNode {
         fatalError("ds")
     }
     
+    //MARK: Handles the raid
     func approachEnemy(){
         // create a general lifetime of approach
         //let bombApproachSpeed = CGFloat(10.0)
@@ -95,6 +96,7 @@ class BombShipSprite: SKSpriteNode {
         //bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
     //}
     
+    // MARK: The bread and potatoes of the bombing run
     func fireAction() -> SKAction{
         return SKAction.run{
             
@@ -131,12 +133,14 @@ class BombShipSprite: SKSpriteNode {
             
         }
     }
+    //MARK: continues the bullet fire
     func spawnBullet() -> SKAction{
         let seq = SKAction.sequence([fireAction(), SKAction.wait(forDuration: 1.2)])
         return SKAction.repeat(seq, count: 12)
         
     }
     
+    //MARK: Just resets ship launch position so that it can go again.
     func resetLaunch() -> SKAction{
         return SKAction.run{
             self.isLaunched = false
@@ -147,7 +151,7 @@ class BombShipSprite: SKSpriteNode {
         }
     }
     
-    // create explosive effect!
+    //MARK: create explosive effect!
     func explosion() -> SKAction{
         return SKAction.run{
             self.expEmitter = SKEmitterNode(fileNamed: "Damage")

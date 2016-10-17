@@ -38,15 +38,18 @@ class AlienSprite: SKSpriteNode {
         fatalError("ds")
     }
     
+    //MARK: Adds Bullet class that fires
     func fire(){
         Bullet(isPlayer: false, spawnPoint: self.position, scene: self.parent as! SKScene)
     }
     
+    // MARK: Updates to move enemy
     func update(dt:CGFloat) {
         velocity = fwd * delta
         position = position + velocity * dt
     }
     
+    // MARK: Self explanatory, bounces off and goes the other way. 
     func reflectX(){
         fwd.x *= CGFloat(-1.0)
     }

@@ -34,14 +34,15 @@ class PauseSprite {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Attach to scene
     func attach (scene: SKScene){
         scene.addChild(node)
     }
-    
+    //MARK: Remove from scene
     func remove (){
         node.removeFromParent()
     }
-    
+    //MARK: pause/unpause functionality
     func paused(){
         node.alpha = pausedAlpha
     }

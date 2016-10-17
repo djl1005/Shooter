@@ -11,6 +11,7 @@ import SpriteKit
 
 class PlayerSprite: SKSpriteNode {
     
+    // declare basic variables
     var isFiring = false
     var lives = 5
     

@@ -131,6 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         //TODO: set
     }
     
+    //MARK: Sets up the game scene and general HUD
     private func setupUI(){
         playableRect = getPlayableRectPhoneLandscape(size: size)
         enemyRect = CGRect(x: playableRect.width/2, y: 0, width: playableRect.width/2, height: playableRect.height)
@@ -273,12 +274,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 //        }
     }
     
+    //MARK -When holding tap-
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             tapY = touch.location(in: self).y
         }
     }
-    
+    //MARK: -When taps are released-
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touches.first != nil {
             tapY = nil
@@ -286,11 +288,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
     }
     
+    //MARK: -Bomb Launched-
     func launchBomb(){
         addChild(bombShip)
         bombShip.approachEnemy()
     }
-    
+    //MARK: -Spawn in Enemies-
     func makeEnemies(){
         
         if(numEnemies + enemySpawnRate > 10 ){ return }
@@ -322,7 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
     }
     
-    // spawns bullets into game
+    //MARK: spawns bullets into game
     func spawnBullet(){
         // only spawn if player is firing
         if player.isFiring{
@@ -338,7 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
     }
     
-    // create a handler to check for bullet collision
+    //MARK: create a handler to check for bullet collision
     func playerBulletCollided(enemy:AlienSprite,bullet:SKSpriteNode){
         print("BOOM")
         enemy.health -= 1
@@ -349,6 +352,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         bullet.removeFromParent()
     }
     
+    //MARK: Create a handler for enemy bullets
     func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
         print("BAM")
         player.lives -= 1
