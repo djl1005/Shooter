@@ -16,7 +16,9 @@ class BombShipSprite: SKSpriteNode {
     var isFiring = false
     var health = 20
     // var firedShot: Int = 0
-    var bullet = SKSpriteNode(imageNamed:"bullet.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
+    var bullet = SKSpriteNode(imageNamed:"bombShot.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
+    
+    var expEmitter = SKEmitterNode(fileNamed: "Damage")
     
     init(){
         super.init(texture: SKTexture(imageNamed:"bombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
@@ -115,10 +117,11 @@ class BombShipSprite: SKSpriteNode {
                 let s = self.scene as! GameScene
                 s.fHealth -= 1;
             }
+            let explode = self.explosion()
             
             let done = SKAction.removeFromParent()
             
-            let sequence = SKAction.sequence([fire, damage ,done])
+            let sequence = SKAction.sequence([fire, damage, explode ,done])
             //print ("FIRING")
             self.bullet.run(sequence, withKey: "Firing")
             
@@ -135,6 +138,23 @@ class BombShipSprite: SKSpriteNode {
             self.canLaunch = true
             self.position = CGPoint(x: 0, y: 100)
             self.zRotation = CGFloat(-M_PI * 0.5)
+        }
+    }
+    
+    // create explosive effect!
+    func explosion() -> SKAction{
+        return SKAction.run{
+            self.expEmitter = SKEmitterNode(fileNamed: "Damage")
+            self.expEmitter?.position = CGPoint(x:1900, y: self.bullet.position.y - 100)
+            self.expEmitter?.zPosition = 5
+            self.scene!.addChild(self.expEmitter!)
+            
+            let waitForExp = SKAction.wait(forDuration: 1.4)
+            let remove = SKAction.removeFromParent()
+            
+            let dura = SKAction.sequence([waitForExp, remove])
+            
+            self.expEmitter!.run(dura)
         }
     }
     // CRASHES!

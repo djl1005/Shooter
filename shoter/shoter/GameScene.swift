@@ -142,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         addChild(background)
         
         // let's try adding visual representation
-        let freighter = SKSpriteNode(texture:SKTexture(imageNamed:"freighter.png"), size: CGSize(width: 750, height: 1350))
+        let freighter = SKSpriteNode(texture:SKTexture(imageNamed:"freighter.png"), size: CGSize(width: 850, height: 1650))
         
         freighter.position = CGPoint(x: 2000, y: size.height/2)
         
@@ -193,7 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         physicsWorld.contactDelegate = self
         
         spaceEmitter.position = CGPoint(x:frame.width/2, y: frame.height/2)
-        spaceEmitter.zPosition = 5
+        spaceEmitter.zPosition = GameData.drawOrder.bg
         addChild(spaceEmitter)
         
         addChild(pauseNode.node)
