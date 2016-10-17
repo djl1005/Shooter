@@ -24,6 +24,8 @@ class AlienSprite: SKSpriteNode {
         self.zRotation = CGFloat(M_PI * 0.5)
         self.zPosition = GameData.drawOrder.enemy
         
+        
+        
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.wait(forDuration:  TimeInterval(CGFloat.random(min: 2, max: 3.5))),

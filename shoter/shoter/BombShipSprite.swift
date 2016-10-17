@@ -20,6 +20,8 @@ class BombShipSprite: SKSpriteNode {
     
     var expEmitter = SKEmitterNode(fileNamed: "Damage")
     
+    var isLaunched = false;
+    
     init(){
         super.init(texture: SKTexture(imageNamed:"bombShip.png"),  color: GameData.player.playerColor, size: GameData.player.playerSize);
         self.position = CGPoint(x: 0, y: 100)
@@ -135,6 +137,7 @@ class BombShipSprite: SKSpriteNode {
     
     func resetLaunch() -> SKAction{
         return SKAction.run{
+            self.isLaunched = false
             self.canLaunch = true
             self.position = CGPoint(x: 0, y: 100)
             self.zRotation = CGFloat(-M_PI * 0.5)

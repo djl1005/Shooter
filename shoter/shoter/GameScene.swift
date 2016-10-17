@@ -235,6 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
                     launchBomb()
                     print("BOMBING")
                     bombShip.canLaunch = false
+                    bombShip.isLaunched = true
                     
                     
                 }
@@ -294,10 +295,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         for _ in 0...enemySpawnRate-1{
             s = AlienSprite()
             s.name = "Enemy"
+            s.position = CGPoint(x: 2000, y: frame.height/2)
             
-            s.position = randomCGPointInRect(enemyRect, margin: 50)
+            let initialPos = SKAction.move(to: randomCGPointInRect(enemyRect, margin: 50), duration: 1.5)
+            
             
             addChild(s)
+            
+            s.run(initialPos)
             
             // check physics body of sprite (Hopefully will collide with bullet)
             s.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width:30,height:50))
