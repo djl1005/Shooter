@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F197B0D1DB569FC00FE39E0 /* PlayerDamage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F197B0C1DB569FC00FE39E0 /* PlayerDamage.sks */; };
 		3F197B0F1DB577B400FE39E0 /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3F197B0E1DB577B400FE39E0 /* bgm.mp3 */; };
+		3F197B111DB5811900FE39E0 /* boom.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3F197B101DB5811900FE39E0 /* boom.wav */; };
 		3F30D4871DB421B100F63312 /* bombShot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F30D4861DB421B100F63312 /* bombShot.png */; };
 		3F30D4891DB42C7F00F63312 /* freighter.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F30D4881DB42C7F00F63312 /* freighter.png */; };
 		3F30F5301DB53BF8000190B5 /* Damage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F30F52F1DB53BF8000190B5 /* Damage.sks */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		3F197B0C1DB569FC00FE39E0 /* PlayerDamage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PlayerDamage.sks; sourceTree = "<group>"; };
 		3F197B0E1DB577B400FE39E0 /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bgm.mp3; path = shoter/bgm.mp3; sourceTree = "<group>"; };
+		3F197B101DB5811900FE39E0 /* boom.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = boom.wav; sourceTree = "<group>"; };
 		3F30D4861DB421B100F63312 /* bombShot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bombShot.png; sourceTree = "<group>"; };
 		3F30D4881DB42C7F00F63312 /* freighter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = freighter.png; sourceTree = "<group>"; };
 		3F30F52F1DB53BF8000190B5 /* Damage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Damage.sks; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		3FAF850B1D943495004E451B /* shoter */ = {
 			isa = PBXGroup;
 			children = (
+				3F197B101DB5811900FE39E0 /* boom.wav */,
 				3F7925361D9863AA00107727 /* GameData.swift */,
 				3F7925371D9863AA00107727 /* MyUtils.swift */,
 				3FAF850C1D943495004E451B /* AppDelegate.swift */,
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FAF85181D943496004E451B /* Main.storyboard in Resources */,
+				3F197B111DB5811900FE39E0 /* boom.wav in Resources */,
 				3F30F5321DB5452F000190B5 /* pause.png in Resources */,
 				3F9161091D999393007E381E /* bullet.png in Resources */,
 				3F197B0F1DB577B400FE39E0 /* bgm.mp3 in Resources */,

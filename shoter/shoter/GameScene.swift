@@ -353,6 +353,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         print("BAM")
         player.lives -= 1
         playerHitAni()
+        run(SKAction.playSoundFileNamed("boom.wav", waitForCompletion: false))
         livesLabel.text = "Lifes: \(player.lives)"
         if player.lives <= 0{
             player.removeFromParent()
