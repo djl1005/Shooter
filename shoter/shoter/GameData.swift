@@ -28,7 +28,9 @@ struct GameData{
     struct player {
         static let playerColor:SKColor = SKColor.brown
         static let playerSize: CGSize = CGSize(width: 100, height: 100)
-        static let shipMaxSpeedPerSecond = CGFloat(400.0)
+        static let shipMaxSpeedPerSecond = CGFloat(600.0)
+        static let shipBombingMaxSpeedPerSecond = CGFloat(300.0)
+        static var isPlayerBombing:Bool = false 
     }
     
     struct bombShip{

@@ -16,7 +16,7 @@ class BombShipSprite: SKSpriteNode {
     var isFiring = false
     var health = 20
     // var firedShot: Int = 0
-    var bullet = SKSpriteNode(imageNamed:"bombShot.png") //TODO: MAKE IT DIFFERENT FROM PLAYER'S
+    var bullet = SKSpriteNode(imageNamed:"bombShot.png")
     
     var expEmitter = SKEmitterNode(fileNamed: "Damage")
     
@@ -52,6 +52,8 @@ class BombShipSprite: SKSpriteNode {
         //let raidSpeed = CGFloat(15.0)
         let bombApproachSpeed = CGFloat(4.0)
         let raidSpeed = CGFloat(15.0)
+        
+        GameData.player.isPlayerBombing = true
         
         // move to the end of screen in 3 seconds, maintaining y position
         let actionApproach = SKAction.move(to: CGPoint(x: self.position.x + 1525, y: self.position.y), duration: TimeInterval(bombApproachSpeed))
@@ -139,6 +141,7 @@ class BombShipSprite: SKSpriteNode {
         return SKAction.run{
             self.isLaunched = false
             self.canLaunch = true
+            GameData.player.isPlayerBombing = false
             self.position = CGPoint(x: 0, y: 100)
             self.zRotation = CGFloat(-M_PI * 0.5)
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F197B0D1DB569FC00FE39E0 /* PlayerDamage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F197B0C1DB569FC00FE39E0 /* PlayerDamage.sks */; };
 		3F30D4871DB421B100F63312 /* bombShot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F30D4861DB421B100F63312 /* bombShot.png */; };
 		3F30D4891DB42C7F00F63312 /* freighter.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F30D4881DB42C7F00F63312 /* freighter.png */; };
 		3F30F5301DB53BF8000190B5 /* Damage.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3F30F52F1DB53BF8000190B5 /* Damage.sks */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F197B0C1DB569FC00FE39E0 /* PlayerDamage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PlayerDamage.sks; sourceTree = "<group>"; };
 		3F30D4861DB421B100F63312 /* bombShot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bombShot.png; sourceTree = "<group>"; };
 		3F30D4881DB42C7F00F63312 /* freighter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = freighter.png; sourceTree = "<group>"; };
 		3F30F52F1DB53BF8000190B5 /* Damage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Damage.sks; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				3F30F52F1DB53BF8000190B5 /* Damage.sks */,
 				3F6CE1721DA1DEF5004F74D7 /* spark.png */,
 				3F674C7B1DB400AC0039F549 /* PauseSprite.swift */,
+				3F197B0C1DB569FC00FE39E0 /* PlayerDamage.sks */,
 			);
 			name = Sprite;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				3FAF851D1D943496004E451B /* LaunchScreen.storyboard in Resources */,
 				3F30F5301DB53BF8000190B5 /* Damage.sks in Resources */,
 				3F6CE1741DA1DEF5004F74D7 /* spark.png in Resources */,
+				3F197B0D1DB569FC00FE39E0 /* PlayerDamage.sks in Resources */,
 				3FAF85111D943496004E451B /* Actions.sks in Resources */,
 				3F6CE1731DA1DEF5004F74D7 /* Space.sks in Resources */,
 			);

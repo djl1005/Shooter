@@ -104,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         self.fHealth = frHealth
         player.lives = lives
         gameIsPaused = true
-        
+        GameData.player.isPlayerBombing = false
         super.init(size: size)
         self.scaleMode = scaleMode
 
@@ -343,6 +343,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func enemyBulletCollided(player:PlayerSprite,bullet:SKSpriteNode){
         print("BAM")
         player.lives -= 1
+        playerHitAni()
         livesLabel.text = "Lifes: \(player.lives)"
         if player.lives <= 0{
             player.removeFromParent()
@@ -352,6 +353,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             
         }
         bullet.removeFromParent()
+    }
+    
+    func playerHitAni(){
+            let expEmitter = SKEmitterNode(fileNamed: "PlayerDamage")
+            expEmitter?.position = CGPoint(x: self.player.position.x + 17, y: self.player.position.y )
+            expEmitter?.zPosition = 500
+            self.scene!.addChild(expEmitter!)
+            
+            let waitForExp = SKAction.wait(forDuration: 1.0)
+            let remove = SKAction.removeFromParent()
+            
+            let dura = SKAction.sequence([waitForExp, remove])
+            
+            expEmitter?.run(dura)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -405,8 +420,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func moveSprites(dt: CGFloat){
         
         if let y = tapY {
+            let maxMove:CGFloat
             
-            let maxMove = GameData.player.shipMaxSpeedPerSecond * dt
+            if(GameData.player.isPlayerBombing){
+                maxMove = GameData.player.shipBombingMaxSpeedPerSecond * dt
+            } else {
+                maxMove = GameData.player.shipMaxSpeedPerSecond * dt
+            }
             let close = abs(y - player.position.y) <= maxMove
             
             if(close){
