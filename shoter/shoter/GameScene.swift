@@ -17,6 +17,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var enemyRect = CGRect.zero //area where enemies can spawn
     var numEnemies = 0;
     
+    var bgm:SKAudioNode!
+    
     let pauseNode = PauseSprite()
     var isFirstUnpause: Bool = false
     var gameIsPaused:Bool {
@@ -99,6 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     //MARK: - Init -
     
     init(size: CGSize, scaleMode:SKSceneScaleMode, levelNum:Int, lives:Int, frHealth:Int, sceneManager:GameViewController) {
+        
         self.levelNum = levelNum
         self.sceneManager = sceneManager
         self.fHealth = frHealth
@@ -115,7 +118,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func didMove(to view: SKView) {
-        setupUI()     
+        setupUI()
+        //SKAction.playSoundFileNamed(<#T##soundFile: String##String#>, waitForCompletion: <#T##Bool#>)
+        //bgm = SKAudioNode(fileNamed: "BGM.mp3")
+        //addChild(bgm)
+        
+        let music = SKAudioNode(fileNamed: "bgm.mp3")
+        addChild(music)
     }
 
     deinit {
