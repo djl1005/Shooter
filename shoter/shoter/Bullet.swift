@@ -12,9 +12,9 @@ import SpriteKit
 class Bullet{
     
     let sprite: SKSpriteNode
+    //var shotSpeed:Double = 0.2
     
     init(isPlayer:Bool, spawnPoint:CGPoint, scene: SKScene) {
-        
         //is player bullet
         if(isPlayer){
             sprite = SKSpriteNode(imageNamed:"bullet.png")
@@ -36,6 +36,8 @@ class Bullet{
             let actionMove = SKAction.move(to: CGPoint(x: scene.size.width - sprite.size.width/2, y: spawnPoint.y), duration: TimeInterval(bulletLifeTime))
             
             let actionMoveDone = SKAction.removeFromParent()
+            
+            //let wait = SKAction.wait(forDuration: shotSpeed)
             
             // run actions above
             sprite.run(SKAction.sequence([actionMove, actionMoveDone]))

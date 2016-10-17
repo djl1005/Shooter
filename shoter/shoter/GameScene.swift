@@ -107,7 +107,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         super.init(size: size)
         self.scaleMode = scaleMode
-        
 
     }
     
@@ -237,7 +236,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
                     bombShip.canLaunch = false
                     bombShip.isLaunched = true
                     
-                    
                 }
             }
             
@@ -319,7 +317,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     func spawnBullet(){
         // only spawn if player is firing
         if player.isFiring{
-             Bullet(isPlayer: true, spawnPoint: player.position, scene: self)
+            let playBul = Bullet(isPlayer: true, spawnPoint: player.position, scene: self)
+            playBul
+            
+            //if(bombShip.isLaunched){
+            //    playBul.shotSpeed = 1.5
+            //} else{
+            //    playBul.shotSpeed = 0.2
+            //}
         }
         
     }
